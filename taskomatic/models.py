@@ -26,7 +26,7 @@ class Inventory(models.Model):
     projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     itemName = models.CharField(max_length=160)
     itemDescription = models.CharField(max_length=350)
-    itemQty = models.PositiveIntegerField(default=0, validators=MinValueValidator(0))
+    itemQty = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
     itemUnit = models.CharField(max_length=20, choices=UNITS_CATEGORIES, default=UNITS_CATEGORIES[0][0])
     itemLimitAlert = models.IntegerField(null=True, blank=True)
 
