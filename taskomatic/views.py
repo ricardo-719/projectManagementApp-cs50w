@@ -61,3 +61,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "taskomatic/register.html")
+    
+
+def new_project(request):
+    return render(request, "taskomatic/index.html")
