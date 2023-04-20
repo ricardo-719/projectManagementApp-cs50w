@@ -1,0 +1,30 @@
+html {
+    font-size: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+}
+
+#taskLogo {
+    max-width: 30rem;
+    margin: 2%;
+}
+
+.navSection {
+    max-width: 20rem;
+    margin: 2%;
+}
+
+.logInAndOut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
