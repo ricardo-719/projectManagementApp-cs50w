@@ -3,10 +3,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.forms import ModelForm, TextInput, Textarea
 
-from .models import User
+from .models import User, Project
 
-
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = ['projectName']
+        widgets = {'projectName': TextInput(attrs={
+            'class': "w-full rounded border px-3 py-[0.32rem]",
+            'id': "projectTitleInput",
+            'placeholder': "Project Title"
+        })}
 
 def index(request):
     return render(request, "taskomatic/index.html")
@@ -64,4 +73,7 @@ def register(request):
     
 
 def new_project(request):
-    return render(request, "taskomatic/index.html")
+    form = ProjectForm(request.POST)
+    return render(request, "taskomatic/newProject.html", {
+        "form": ProjectForm()
+    })
