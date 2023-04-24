@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.forms import ModelForm, TextInput, Textarea
+from django.forms import ModelForm, TextInput, Textarea, CheckboxInput
 
 from .models import User, Project
 
@@ -19,10 +19,19 @@ class ProjectForm(ModelForm):
             })},
         {
             'projectDescription': Textarea(attrs={
-            'class': 'peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+            'class': 'px-3 py-[0.32rem]',
             'id': 'projectDescriptionInput',
             'placeholder': "Project Description"
             }),
+        },
+        {
+            'hasTasks': CheckboxInput()
+        },
+        {
+            'hasInventory': CheckboxInput()
+        },
+        {
+            'hasDeadline': CheckboxInput()
         }
 
 def index(request):

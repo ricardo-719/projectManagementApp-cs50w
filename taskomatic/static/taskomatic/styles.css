@@ -38,3 +38,7 @@ header {
     margin: 0 auto;
     max-width: 40rem;
 }
+
+#projectDescriptionInput {
+    max-width: 20rem;
+}
