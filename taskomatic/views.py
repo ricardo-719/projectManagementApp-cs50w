@@ -10,12 +10,20 @@ from .models import User, Project
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['projectName']
-        widgets = {'projectName': TextInput(attrs={
-            'class': "w-full rounded border px-3 py-[0.32rem]",
+        fields = "__all__"
+        widgets = {
+            'projectName': TextInput(attrs={
+            'class': "max-w-lg rounded border px-3 py-[0.32rem]",
             'id': "projectTitleInput",
             'placeholder': "Project Title"
-        })}
+            })},
+        {
+            'projectDescription': Textarea(attrs={
+            'class': 'peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0',
+            'id': 'projectDescriptionInput',
+            'placeholder': "Project Description"
+            }),
+        }
 
 def index(request):
     return render(request, "taskomatic/index.html")

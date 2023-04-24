@@ -29,8 +29,12 @@ header {
     align-items: center;
 }
 
-#newProjectForm {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
+#newProjectCard {
+    margin: 0 auto;
+    max-width: 65rem;
+}
+
+#newProjectFormContainer {
+    margin: 0 auto;
+    max-width: 40rem;
 }
