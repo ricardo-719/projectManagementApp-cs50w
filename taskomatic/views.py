@@ -13,25 +13,22 @@ class ProjectForm(ModelForm):
         fields = "__all__"
         widgets = {
             'projectName': TextInput(attrs={
-            'class': "max-w-lg rounded border px-3 py-[0.32rem]",
+            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
             'id': "projectTitleInput",
             'placeholder': "Project Title"
-            })},
-        {
+            }),
             'projectDescription': Textarea(attrs={
-            'class': 'px-3 py-[0.32rem]',
+            'class': 'rounded px-3 py-[0.32rem] m-2',
+            'cols': "60",
+            'rows': "6",
             'id': 'projectDescriptionInput',
             'placeholder': "Project Description"
             }),
-        },
-        {
-            'hasTasks': CheckboxInput()
-        },
-        {
-            'hasInventory': CheckboxInput()
-        },
-        {
-            'hasDeadline': CheckboxInput()
+            'hasTasks': CheckboxInput(),
+            'hasInventory': CheckboxInput(),
+            'hasDeadline': CheckboxInput(attrs={
+            'id': "projectTitleInput"
+            })
         }
 
 def index(request):

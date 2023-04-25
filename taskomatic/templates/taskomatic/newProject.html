@@ -1,6 +1,10 @@
 {% extends "./layout.html" %}
+{% load static %}
 
 {% block body %}
+{% block script %}
+    <script defer src="{% static 'taskomatic/newProject.js' %}"></script>
+{% endblock %}
 <div id="newProjectCard"
   class="block rounded-lg bg-white text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
   <div
@@ -19,15 +23,18 @@
                 <br>
                 {{ form.projectDescription|safe }}
                 <br>
-                <p class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">PROJECTS FEATURES: </p>
-                <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Tasks Management: </label>
-                {{ form.hasTasks|safe }}
-                <br>
-                <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Inventory Management: </label>
-                {{ form.hasInventory|safe }}
-                <br>
-                <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
-                {{ form.hasDeadline|safe }}
+                <section id="projectFeaturesSection">
+                  <p class="mb-2 text-lg font-bold text-neutral-800 dark:text-neutral-50">Project Features: </p>
+                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Tasks Management: </label>
+                  {{ form.hasTasks|safe }}
+                  <br>
+                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Inventory Management: </label>
+                  {{ form.hasInventory|safe }}
+                  <br>
+                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
+                  {{ form.hasDeadline|safe }}
+                  <br>
+                </section>
             </div>
         </form>
     </section>
@@ -39,3 +46,4 @@
 </div>
 
 {% endblock %}
+
