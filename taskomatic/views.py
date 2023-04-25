@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.forms import ModelForm, TextInput, Textarea, CheckboxInput
+from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput
 
 from .models import User, Project
 
@@ -27,8 +27,10 @@ class ProjectForm(ModelForm):
             'hasTasks': CheckboxInput(),
             'hasInventory': CheckboxInput(),
             'hasDeadline': CheckboxInput(attrs={
-            'id': "projectTitleInput"
-            })
+            'id': "projectDeadlineCheckbox",
+            'name': "projectDeadlineCheckbox"
+            }),
+            'deadlineDate': DateInput(format='%d/%m/%Y')
         }
 
 def index(request):

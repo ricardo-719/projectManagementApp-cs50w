@@ -1,5 +1,9 @@
-let element = document.getElementById('projectTitleInput');
+let element = document.getElementById('projectDeadlineCheckbox');
 
-element.addEventListener("click", () => {
-    console.log('hi')
+element.addEventListener("change", () => {
+    if (element.checked) {
+
+    } else {
+
+    }
 })
