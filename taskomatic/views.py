@@ -30,7 +30,7 @@ class ProjectForm(ModelForm):
             'id': "projectDeadlineCheckbox",
             'name': "projectDeadlineCheckbox"
             }),
-            'deadlineDate': DateInput(format='%d/%m/%Y')
+            'deadlineDate': DateInput(attrs=dict(type='date'))
         }
 
 def index(request):

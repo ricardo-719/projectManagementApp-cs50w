@@ -31,11 +31,14 @@
                   <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Inventory Management: </label>
                   {{ form.hasInventory|safe }}
                   <br>
-                  <label for="projectDeadlineCheckbox" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
-                  {{ form.hasDeadline|safe }}
-                  <br>
-                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Deadline: </label>
-                  {{ form.deadlineDate|safe }}
+                  <div id="containerDeadlineCheckBox">
+                    <label for="projectDeadlineCheckbox" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
+                    {{ form.hasDeadline|safe }}
+                  </div>
+                  <div id="containerDeadlineDate">
+                    <label for="id_deadlineDate" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Deadline: </label>
+                    {{ form.deadlineDate|safe }}
+                  </div>
                 </section>
             </div>
         </form>

@@ -45,3 +45,14 @@ header {
     max-width: 20rem;
     margin: 0 auto;
 }
+
+#containerDeadlineCheckBox {
+    margin-bottom: 0.2rem;
+}
+
+#containerDeadlineDate {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease-in;
+    padding-bottom: 0.5rem;
+}
