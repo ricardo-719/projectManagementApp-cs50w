@@ -9,6 +9,7 @@ from . import urls
 from .models import User, Project
 
 class ProjectForm(ModelForm):
+
     class Meta:
         model = Project
         fields = "__all__"
@@ -94,21 +95,22 @@ def register(request):
 
 def new_project(request):
     form = ProjectForm(request.POST)
-    print('testing get')
     if request.method == "POST":
-        print('testing post')
-        print(form.is_valid())
+        hasTasks = request.POST.get('hasTasks', False)
+        hasInventory = request.POST.get('hasInventory', False)
+        hasDeadline = request.POST.get('hasDealine', False)
+        if hasTasks == 'on': hasTasks = True
+        if hasInventory == 'on' : hasInventory = True
+        if hasDeadline == 'on' : hasDeadline = True
         if form.is_valid():
             projectName = request.POST["projectName"]
             projectDescription = request.POST["projectDescription"]
-            hasTask = request.POST["hasTasks"]
             hasInventory = request.POST["hasInventory"]
             hasDeadline = request.POST["hasDeadline"]
             deadlineDate = request.POST["deadlineDate"]
             print('testing submission')
             print(projectName)
             print(projectDescription)
-            print(hasTask)
             print(hasDeadline)
             print(hasInventory)
             print(deadlineDate)
