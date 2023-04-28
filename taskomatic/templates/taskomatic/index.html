@@ -6,6 +6,15 @@
     <h1>This is index</h1>
     <p>Dashboard</p>
     <p>Ongoing Projects</p>
+    <ul>
+    {% if projects %}
+        {% for project in projects %}
+        <li>{{ project.projectName }}</li>
+        {% endfor %}
+    {% else %}
+        <li>No projects.</li>
+    {% endif %}
+    </ul>
 {% else %}
     <div
     class="relative overflow-hidden rounded-lg bg-cover bg-no-repeat p-12 text-center"

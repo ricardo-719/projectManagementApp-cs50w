@@ -11,43 +11,43 @@
     class="border-b-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50 text-2xl">
     New Project
   </div>
-  <div class="p-6">
-    <section id="newProjectFormContainer">
-        <form action="" method="post">
-            {% csrf_token %}
-            <div id="newProjectForm" class="relative mb-3">
-                <label for="projectTitleInput" class="mb-2 text-lg font-medium leading-tight text-neutral-800 dark:text-neutral-50">Project Title: </label>
-                {{ form.projectName|safe }}
-                <br>
-                <label for="projectDescriptionInput" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Description: </label>
-                <br>
-                {{ form.projectDescription|safe }}
-                <br>
-                <section id="projectFeaturesSection">
-                  <p class="mb-2 text-lg font-bold text-neutral-800 dark:text-neutral-50">Project Features: </p>
-                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Tasks Management: </label>
-                  {{ form.hasTasks|safe }}
-                  <br>
-                  <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Inventory Management: </label>
-                  {{ form.hasInventory|safe }}
-                  <br>
-                  <div id="containerDeadlineCheckBox">
-                    <label for="projectDeadlineCheckbox" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
-                    {{ form.hasDeadline|safe }}
-                  </div>
-                  <div id="containerDeadlineDate">
-                    <label for="id_deadlineDate" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Deadline: </label>
-                    {{ form.deadlineDate|safe }}
-                  </div>
-                </section>
-            </div>
-        </form>
-    </section>
-  </div>
-  <input class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase 
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="p-6">
+      <section id="newProjectFormContainer">
+          <div id="newProjectForm" class="relative mb-3">
+            <label for="projectTitleInput" class="mb-2 text-lg font-medium leading-tight text-neutral-800 dark:text-neutral-50">Project Title: </label>
+            {{ form.projectName|safe }}
+            <br>
+            <label for="projectDescriptionInput" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Description: </label>
+            <br>
+            {{ form.projectDescription|safe }}
+            <br>
+            <section id="projectFeaturesSection">
+              <p class="mb-2 text-lg font-bold text-neutral-800 dark:text-neutral-50">Project Features: </p>
+              <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Tasks Management: </label>
+              {{ form.hasTasks|safe }}
+              <br>
+              <label for="" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Inventory Management: </label>
+              {{ form.hasInventory|safe }}
+              <br>
+              <div id="containerDeadlineCheckBox">
+                <label for="projectDeadlineCheckbox" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Project Deadline: </label>
+                {{ form.hasDeadline|safe }}
+              </div>
+              <div id="containerDeadlineDate">
+                <label for="id_deadlineDate" class="mb-2 text-lg font-medium text-neutral-800 dark:text-neutral-50">Deadline: </label>
+                {{ form.deadlineDate|safe }}
+              </div>
+            </section>
+          </div> 
+      </section>
+    </div>
+    <input class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase 
     rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none 
     focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out mt-1 mb-2"
     type="submit" value="Create" name="listBtn">
+  </form>
 </div>
 
 {% endblock %}

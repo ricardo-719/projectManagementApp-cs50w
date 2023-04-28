@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput
+from . import urls
 
 from .models import User, Project
 
@@ -34,7 +35,10 @@ class ProjectForm(ModelForm):
         }
 
 def index(request):
-    return render(request, "taskomatic/index.html")
+    projects = Project.objects.all().order_by('-creationDate')
+    return render(request, "taskomatic/index.html", {
+        "projects": projects
+    })
 
 
 def login_view(request):
@@ -90,6 +94,25 @@ def register(request):
 
 def new_project(request):
     form = ProjectForm(request.POST)
+    print('testing get')
+    if request.method == "POST":
+        print('testing post')
+        print(form.is_valid())
+        if form.is_valid():
+            projectName = request.POST["projectName"]
+            projectDescription = request.POST["projectDescription"]
+            hasTask = request.POST["hasTasks"]
+            hasInventory = request.POST["hasInventory"]
+            hasDeadline = request.POST["hasDeadline"]
+            deadlineDate = request.POST["deadlineDate"]
+            print('testing submission')
+            print(projectName)
+            print(projectDescription)
+            print(hasTask)
+            print(hasDeadline)
+            print(hasInventory)
+            print(deadlineDate)
+        return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
         "form": ProjectForm()
     })
