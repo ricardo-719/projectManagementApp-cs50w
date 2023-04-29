@@ -3,18 +3,22 @@
 
 {% block body %}
 {% if user.is_authenticated %}
-    <h1>This is index</h1>
-    <p>Dashboard</p>
-    <p>Ongoing Projects</p>
-    <ul>
-    {% if projects %}
-        {% for project in projects %}
-        <li>{{ project.projectName }}</li>
-        {% endfor %}
-    {% else %}
-        <li>No projects.</li>
-    {% endif %}
-    </ul>
+    <div id="dashboardContainer">
+        <h2>This is index</h2>
+        <h2>Dashboard</h2>
+        <div id="ongoingProjectsContainer">
+            <h2>Ongoing Projects</h2>
+            <ul>
+            {% if projects %}
+                {% for project in projects %}
+                <li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption"><b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li>
+                {% endfor %}
+            {% else %}
+                <li>No projects.</li>
+            {% endif %}
+            </ul>
+        </div>    
+    </div>
 {% else %}
     <div
     class="relative overflow-hidden rounded-lg bg-cover bg-no-repeat p-12 text-center"

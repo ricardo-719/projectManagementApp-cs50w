@@ -8,6 +8,11 @@ html {
     box-sizing: border-box;
 }
 
+h2 {
+    font-size: 1.8rem !important;
+    font-weight: 600 !important;
+}
+
 header {
     display: flex;
     justify-content: space-around;
@@ -55,4 +60,33 @@ header {
     opacity: 0;
     transition: visibility 0s, opacity 0.5s ease-in;
     padding-bottom: 0.5rem;
+}
+
+#dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid red;
+}
+
+#ongoingProjectsContainer {
+    width: 85%;
+    border: 1px solid blue;
+    padding: 1%;
+}
+
+#projectInstance {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    margin: 0.3rem;
+    padding: 0.5rem;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 0.3rem;
+}
+
+.dateCaption {
+    font-size: 1.1rem;
 }
