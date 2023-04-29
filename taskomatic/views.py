@@ -112,13 +112,13 @@ def new_project(request):
         f.save()
         return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
-        "form": ProjectForm(initial={
-        'hasTaks': False,
-        'hasInventory': False,
-        'hasDeadline': False})
+        "form": ProjectForm()
     })
 
 
 def project_view(request, pk):
-    #load project database and provide relevant info for the page
-    return render(request, "taskomatic/projectPage.html")
+    project = Project.objects.filter(id=pk)
+    print(project)
+    return render(request, "taskomatic/projectPage.html", {
+        'project': project
+    })
