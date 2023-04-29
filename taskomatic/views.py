@@ -117,3 +117,8 @@ def new_project(request):
         'hasInventory': False,
         'hasDeadline': False})
     })
+
+
+def project_view(request, pk):
+    #load project database and provide relevant info for the page
+    return render(request, "taskomatic/projectPage.html")
