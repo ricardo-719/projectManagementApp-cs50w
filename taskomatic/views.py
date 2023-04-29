@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput
+from datetime import datetime
 from . import urls
 
 from .models import User, Project
@@ -29,8 +30,8 @@ class ProjectForm(ModelForm):
             'hasTasks': CheckboxInput(),
             'hasInventory': CheckboxInput(),
             'hasDeadline': CheckboxInput(attrs={
-            'id': "projectDeadlineCheckbox",
-            'name': "projectDeadlineCheckbox"
+                'id': "projectDeadlineCheckbox",
+                'name': "projectDeadlineCheckbox"
             }),
             'deadlineDate': DateInput(attrs=dict(type='date'))
         }
@@ -94,27 +95,25 @@ def register(request):
     
 
 def new_project(request):
-    form = ProjectForm(request.POST)
     if request.method == "POST":
-        hasTasks = request.POST.get('hasTasks', False)
-        hasInventory = request.POST.get('hasInventory', False)
-        hasDeadline = request.POST.get('hasDealine', False)
-        if hasTasks == 'on': hasTasks = True
-        if hasInventory == 'on' : hasInventory = True
-        if hasDeadline == 'on' : hasDeadline = True
-        if form.is_valid():
-            projectName = request.POST["projectName"]
-            projectDescription = request.POST["projectDescription"]
-            hasInventory = request.POST["hasInventory"]
-            hasDeadline = request.POST["hasDeadline"]
-            deadlineDate = request.POST["deadlineDate"]
-            print('testing submission')
-            print(projectName)
-            print(projectDescription)
-            print(hasDeadline)
-            print(hasInventory)
-            print(deadlineDate)
+        print(request.POST)
+        pName = request.POST['projectName']
+        pDescription = request.POST['projectDescription']
+        hTasks = request.POST.get('hasTasks', False)
+        hInventory = request.POST.get('hasInventory', False)
+        hDeadline = request.POST.get('hasDeadline', False)
+        dDate = request.POST['deadlineDate']
+        if hTasks == 'on': hTasks = True
+        if hInventory == 'on' : hInventory = True
+        if hDeadline == 'on' : hDeadline = True
+        if dDate == "": dDate = None
+        
+        f =  Project(user=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
+        f.save()
         return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
-        "form": ProjectForm()
+        "form": ProjectForm(initial={
+        'hasTaks': False,
+        'hasInventory': False,
+        'hasDeadline': False})
     })
