@@ -68,12 +68,10 @@ header {
     align-items: center;
     width: 80%;
     margin: 0 auto;
-    border: 1px solid red;
 }
 
 #ongoingProjectsContainer {
     width: 85%;
-    border: 1px solid blue;
     padding: 1%;
 }
 
@@ -87,6 +85,49 @@ header {
     border-radius: 0.3rem;
 }
 
+#projectInstance:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
 .dateCaption {
     font-size: 1.1rem;
+}
+
+#projectPageMainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid red;
+}
+
+.descriptiveParagraph {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+#tasksAndInventorySection {
+    display: flex;
+    justify-content: space-between;
+}
+
+#tasksContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 255, 255, 0.2);
+    border-radius: 0.3rem;
+    min-height: 10rem;
+    margin: 1%;
+    padding: 2%;
+}
+
+#inventoryContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(127, 255, 212, 0.2);
+    border-radius: 0.3rem;
+    min-height: 10rem;
+    margin: 1%;
+    padding: 2%;
 }

@@ -1,16 +1,26 @@
 {% extends "./layout.html" %}
 
 {% block body %}
-
+<div id="projectPageMainContainer">
     {% for item in project %}
-    <ul>
-        <li>{{ item.projectName }}</li>
-    </ul>
-
-    <p>{{ item.projectDescription }}</p>
+    <h2>{{ item.projectName }}</h2>
+    <p class="descriptiveParagraph">{{ item.projectDescription }}</p>
+    <div id="tasksAndInventorySection">
+        <span id="tasksContainer">
+            <p>In here there's a conditional and loop to load tasks, with a button to load new tasks</p>
+            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
+                + Add Task
+            </button>
+        </span>
+        <span id="inventoryContainer">
+            <p>In here there's a conditional and loop to load inventory, with a button to load new inventory items</p>
+            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600">
+                + Add Inventory
+            </button>
+        </span>
+    </div>
     {% endfor %}
-    
+</div>   
 {% endblock %}
-<!-- When user press the ENTER button or log in, the user is redirected to the Dashboard. 
-    Here they can visualize on-going projects and create new projects  
-Or maybe just have everything on the index page using a conditional.-->
