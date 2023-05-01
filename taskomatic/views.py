@@ -108,7 +108,7 @@ def new_project(request):
         if hDeadline == 'on' : hDeadline = True
         if dDate == "": dDate = None
         
-        f =  Project(user=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
+        f =  Project(user=request.user, owner=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
         f.save()
         return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
