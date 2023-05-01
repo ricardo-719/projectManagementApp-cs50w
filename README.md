@@ -9,3 +9,11 @@ Files:
 - models.py...
 - newProject.html...
 - newProject.js contains a function that handles the display status (block/none) of the deadline form making it appear when needed otherwise keeping it hidden.
+
+Models:
+
+Project model: database for projects
+Tasks model : database for tasks within projects
+Inventory model: database for inventory within projects 
+Room model: database for discussion rooms for shared projects
+Message model: database of all messages within the rooms

@@ -7,7 +7,7 @@ from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInpu
 from datetime import datetime
 from . import urls
 
-from .models import User, Project
+from .models import User, Project, Tasks, Inventory
 
 class ProjectForm(ModelForm):
 
@@ -118,7 +118,11 @@ def new_project(request):
 
 def project_view(request, pk):
     project = Project.objects.filter(id=pk)
+    tasks = Tasks.objects.filter(projectId = pk)
+    inventory = Inventory.objects.filter(projectId = pk)
     print(project)
     return render(request, "taskomatic/projectPage.html", {
-        'project': project
+        'project': project,
+        'tasks': tasks,
+        'inventory': inventory
     })

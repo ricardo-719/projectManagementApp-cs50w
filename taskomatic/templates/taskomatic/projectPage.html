@@ -8,11 +8,27 @@
     <div id="tasksAndInventorySection">
         <span id="tasksContainer">
             <h3>Tasks</h3>
-            <p>In here there's a conditional and loop to load tasks, with a button to load new tasks</p>
+            {% if item.hasTasks %}
+                {% if tasks %}
+                    {% for task in tasks %}
+            <p>{{ task.taskName }}</p>
             <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Task
             </button>
+                    {% endfor %}
+                {% else %}
+            <p>Currently, there are no tasks.</p>
+            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
+                + Add Task
+            </button>
+                {% endif %}
+            {% else %}
+            <p>Tasks are <b>disabled</b> of this project.</p>
+            <!-- Add another conditional here for owner of project (enable/disable button) -->
+            <p>Request project owner to enable this functionality.</p>
+            {% endif %}
         </span>
         <span id="inventoryContainer">
             <h3>Inventory</h3>

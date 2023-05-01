@@ -35,6 +35,7 @@ class Inventory(models.Model):
 
 class Tasks(models.Model):
     projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
+    taskCreator = models.CharField(max_length=80)
     taskName = models.CharField(max_length=160)
     taskDescription = models.CharField(max_length=350)
     taskDeadline = models.DateField(null=True, blank=True)
