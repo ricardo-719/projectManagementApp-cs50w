@@ -36,6 +36,43 @@ class ProjectForm(ModelForm):
             'deadlineDate': DateInput(attrs=dict(type='date'))
         }
 
+class TaskForm(ModelForm):
+
+    class Meta:
+        model = Tasks
+        fields = "__all__"
+        widgets = {
+            "taskName": TextInput(attrs={
+            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'placeholder': "Project Title"
+            }),
+            "taskDescription": Textarea(attrs={
+            'class': 'rounded px-3 py-[0.32rem] m-2',
+            'cols': "60",
+            'rows': "6",
+            'placeholder': "Task details"
+            })
+        }
+
+class InventoryForm(ModelForm):
+
+    class Meta:
+        model = Inventory
+        fields = "__all__"
+        widgets = {
+            "itemName": TextInput(attrs={
+            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'placeholder': "Project Title"
+            }),
+            "itemDescription": Textarea(attrs={
+            'class': 'rounded px-3 py-[0.32rem] m-2',
+            'cols': "60",
+            'rows': "6",
+            'placeholder': "Item notes"
+            })
+        }
+
+
 def index(request):
     projects = Project.objects.all().order_by('-creationDate')
     return render(request, "taskomatic/index.html", {
@@ -124,5 +161,7 @@ def project_view(request, pk):
     return render(request, "taskomatic/projectPage.html", {
         'project': project,
         'tasks': tasks,
-        'inventory': inventory
+        'inventory': inventory,
+        'taskForm': TaskForm(),
+        'inventoryForm': InventoryForm()
     })

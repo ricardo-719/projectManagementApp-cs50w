@@ -16,10 +16,12 @@
                 <h3 class="modalTitle"></h3>
             </div>
             <div class="p-3 tasksModalForm">
-                <p>add TASK forms here</p>
+                {{ taskForm.taskName }}
+                {{ taskForm.taskDescription }}
             </div>
             <div class="p-3 inventoryModalForm">
-                <p>add INVENTORY forms here</p>
+                {{ inventoryForm.itemName }}
+                {{ inventoryForm.itemDescription }}
             </div>
             <div class="flex justify-end items-center w-100 border-t p-3">
                 <button class="bg-red-400 hover:bg-red-500 px-3 py-1 rounded text-white mr-1 close-modal">Back</button>
