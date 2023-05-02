@@ -1,10 +1,32 @@
 {% extends "./layout.html" %}
+{% load static %}
 
 {% block body %}
+    {% block script %}
+    <script defer src="{% static 'taskomatic/projectPage.js' %}"></script>
+    {% endblock %}
 <div id="projectPageMainContainer">
     {% for item in project %}
     <h2>{{ item.projectName }}</h2>
     <p class="descriptiveParagraph">{{ item.projectDescription }}</p>
+    <!-- "ADD TASK" MODAL -->
+    <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded shadow-lg w-1/3">
+            <div class="border-b px-4 py-2">
+                <h3 class="modalTitle"></h3>
+            </div>
+            <div class="p-3 tasksModalForm">
+                <p>add TASK forms here</p>
+            </div>
+            <div class="p-3 inventoryModalForm">
+                <p>add INVENTORY forms here</p>
+            </div>
+            <div class="flex justify-end items-center w-100 border-t p-3">
+                <button class="bg-red-400 hover:bg-red-500 px-3 py-1 rounded text-white mr-1 close-modal">Back</button>
+                <button class="bg-sky-400 hover:bg-sky-500 px-3 py-1 rounded text-white">Add</button>
+            </div>
+        </div>
+    </div>
     <div id="tasksAndInventorySection">
         <span id="tasksContainer">
             <h3>Tasks</h3>
@@ -12,14 +34,14 @@
                 {% if tasks %}
                     {% for task in tasks %}
             <p>{{ task.taskName }}</p>
-            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Task
             </button>
                     {% endfor %}
                 {% else %}
             <p>Currently, there are no tasks.</p>
-            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Task
             </button>
@@ -32,11 +54,26 @@
         </span>
         <span id="inventoryContainer">
             <h3>Inventory</h3>
-            <p>In here there's a conditional and loop to load inventory, with a button to load new inventory items</p>
-            <button type="button" class="inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            {% if item.hasInventory %}
+                {% if inventory %}
+                    {% for inventoryItem in inventory %}
+            <p>{{ inventoryItem.itemName }}</p>
+            <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Inventory
             </button>
+                    {% endfor %}
+                {% else %}
+            <p>Currently, there is no inventory.</p>
+            <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
+            text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
+                + Add Inventory
+            </button>
+                {% endif %}
+            {% else %}
+            <p>Inventory is <b>disabled</b> of this project.</p>
+            <p>Request project owner to enable this functionality.</p>
+            {% endif %}
         </span>
     </div>
     {% endfor %}

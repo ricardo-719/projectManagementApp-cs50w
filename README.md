@@ -9,6 +9,8 @@ Files:
 - models.py...
 - newProject.html...
 - newProject.js contains a function that handles the display status (block/none) of the deadline form making it appear when needed otherwise keeping it hidden.
+- projectPage.html display the projects information and allow user to add and/or delete tasks and inventory. Allow owner of the project to manage teams, ect.
+- projectPage.js handles the javascript for the modals (add tasks, inventory, ect.)
 
 Models:
 
