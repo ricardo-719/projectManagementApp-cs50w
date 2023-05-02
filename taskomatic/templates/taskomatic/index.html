@@ -11,7 +11,8 @@
             <ul>
             {% if projects %}
                 {% for project in projects %}
-                <a href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption"><b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
+                <a href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
+                <b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
                 {% endfor %}
             {% else %}
                 <li>No projects.</li>

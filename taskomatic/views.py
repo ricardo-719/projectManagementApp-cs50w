@@ -69,7 +69,6 @@ def register(request):
 
 def new_project(request):
     if request.method == "POST":
-        print(request.POST)
         pName = request.POST['projectName']
         pDescription = request.POST['projectDescription']
         hTasks = request.POST.get('hasTasks', False)
@@ -88,12 +87,18 @@ def new_project(request):
         "form": ProjectForm()
     })
 
+def edit_project(request, pk):
+    print(pk)
+    project = Project.objects.filter(id=pk)
+    form = ProjectForm(instance=project)
+    return render(request, "taskomatic/newProject.html", {
+        "form": form
+    })
 
 def project_view(request, pk):
     project = Project.objects.filter(id=pk)
     tasks = Tasks.objects.filter(projectId = pk)
     inventory = Inventory.objects.filter(projectId = pk)
-    print(project)
     return render(request, "taskomatic/projectPage.html", {
         'project': project,
         'tasks': tasks,

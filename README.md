@@ -6,6 +6,7 @@ Files:
 
 - index.html...
 - views.py...
+    edit_project: Takes the project's id as an argument and pre-fill forms for editing the project.
 - models.py...
 - forms.py : this file contains all ModelForms of the project. The purpose is to have a better organized project by separation of concerns and in this way not having to rely on the views.py the manage things related to the forms. 
 - newProject.html...
@@ -20,3 +21,8 @@ Tasks model : database for tasks within projects
 Inventory model: database for inventory within projects 
 Room model: database for discussion rooms for shared projects
 Message model: database of all messages within the rooms
+
+Asset libraries & Technologies:
+
+Font Awesome SVG Icons library for buttons such as the Edit button.
+Google Fonts
