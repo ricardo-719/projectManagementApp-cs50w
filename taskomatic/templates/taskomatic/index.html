@@ -15,7 +15,7 @@
             {% if projects %}
                 {% for project in projects %}
                 <div id="projectInstanceContainer">
-                    <a id="projectInstanceAnchor" href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
+                    <a id="projectInstanceAnchor" href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span style="cursor: default"><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
                     <b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
                     <form method="POST" action="{% url 'editProject' %}" name="indexEditForm{{ project.id }}" id="indexEditForm{{ project.id }}">
                         {% csrf_token %}

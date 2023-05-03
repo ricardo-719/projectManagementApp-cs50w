@@ -102,6 +102,7 @@ header {
 }
 
 #projectInstanceAnchor {
+    cursor: default;
     width: 100%;
 }
 
@@ -109,9 +110,11 @@ header {
     position: relative;
     right: 1rem;
     top: 0.2rem;
+    cursor: pointer;
 }
 
 .dateCaption {
+    cursor: default;
     font-size: 1.1rem;
     padding-right: 1.5rem;
 }
