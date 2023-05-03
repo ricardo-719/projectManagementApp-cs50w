@@ -78,6 +78,11 @@
             {% endif %}
         </span>
     </div>
+    <form method="POST" action="{% url 'editProject' %}" name="editForm">
+        {% csrf_token %}
+        <input type="hidden" name="projectId" id="projectId" value="{{ item.id }}">
+        <i id="editIcon" class="fa-solid fa-pen-to-square"></i>
+    </form>
     <!-- <a href="{% url 'editProject' %}"><i class="fa-solid fa-pen-to-square"></i></a> -->
     {% endfor %}
 </div>

@@ -80,9 +80,16 @@ header {
     padding: 1%;
 }
 
+#projectInstanceContainer {
+    display: flex;
+    justify-content:flex-start;
+    width: 100%;
+}
+
 #projectInstance {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     font-size: 1.4rem;
     margin: 0.3rem;
     padding: 0.5rem;
@@ -94,8 +101,19 @@ header {
     background-color: rgba(128, 128, 128, 0.5);
 }
 
+#projectInstanceAnchor {
+    width: 100%;
+}
+
+.indexEditIcon {
+    position: relative;
+    right: 1rem;
+    top: 0.2rem;
+}
+
 .dateCaption {
     font-size: 1.1rem;
+    padding-right: 1.5rem;
 }
 
 #projectPageMainContainer {
@@ -139,3 +157,4 @@ header {
     margin: 1%;
     padding: 2%;
 }
+

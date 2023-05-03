@@ -1,7 +1,10 @@
 {% extends "./layout.html" %}
-
+{% load static %}
 
 {% block body %}
+    {% block script %}
+    <script defer src="{% static 'taskomatic/index.js' %}"></script>
+    {% endblock %}
 {% if user.is_authenticated %}
     <div id="dashboardContainer">
         <h2>This is index</h2>
@@ -11,8 +14,15 @@
             <ul>
             {% if projects %}
                 {% for project in projects %}
-                <a href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
-                <b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
+                <div id="projectInstanceContainer">
+                    <a id="projectInstanceAnchor" href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
+                    <b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
+                    <form method="POST" action="{% url 'editProject' %}" name="indexEditForm{{ project.id }}" id="indexEditForm{{ project.id }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="projectId" id="projectIndexId" value="{{ project.id }}">
+                        <i id="indexEditIcon{{project.id}}" class="fa-solid fa-pen-to-square indexEditIcon"></i>
+                    </form>
+                </div>
                 {% endfor %}
             {% else %}
                 <li>No projects.</li>

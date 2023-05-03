@@ -87,13 +87,15 @@ def new_project(request):
         "form": ProjectForm()
     })
 
-def edit_project(request, pk):
-    print(pk)
-    project = Project.objects.filter(id=pk)
-    form = ProjectForm(instance=project)
-    return render(request, "taskomatic/newProject.html", {
+def edit_project(request):
+    if request.method == "POST":
+        projectId = request.POST['projectId']
+        projectInstance = Project.objects.get(id=projectId)
+        form = ProjectForm(instance=projectInstance)
+        return render(request, "taskomatic/newProject.html", {
         "form": form
-    })
+        })
+    return render(request, "taskomatic/register.html")
 
 def project_view(request, pk):
     project = Project.objects.filter(id=pk)
