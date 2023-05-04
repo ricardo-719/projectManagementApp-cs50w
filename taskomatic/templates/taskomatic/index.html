@@ -15,14 +15,21 @@
             {% if projects %}
                 {% for project in projects %}
                 <div id="projectInstanceContainer">
-                    <a id="projectInstanceAnchor" href="{% url 'projectPage' project.id %}"><li id="projectInstance"><span style="cursor: default"><b>{{ project.projectName }}</b></span> <span><i class="dateCaption">
-                    <b>Since:</b> {{ project.creationDate }}</i></span> <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span></li></a>
+                    <a id="projectInstanceAnchor" href="{% url 'projectPage' project.id %}">
+                        <li id="projectInstance">
+                            <span style="cursor: default"><b>{{ project.projectName }}</b></span> 
+                            <span class="flex justify-between">
+                                <span><i class="dateCaption"><b>Since:</b> {{ project.creationDate }}</i></span> 
+                                <span><i class="dateCaption"><b>Deadline:</b> {{ project.deadlineDate }}</i></span>
+                            </span>
+                        </li>
+                    </a>
                     <form method="POST" action="{% url 'editProject' %}" name="indexEditForm{{ project.id }}" id="indexEditForm{{ project.id }}">
                         {% csrf_token %}
                         <input type="hidden" name="projectId" id="projectIndexId" value="{{ project.id }}">
                         <i id="indexEditIcon{{project.id}}" class="fa-solid fa-pen-to-square indexEditIcon"></i>
                     </form>
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i class="fa-solid fa-trash-can relative top-2 right-1 cursor-pointer"></i>
                 </div>
                 {% endfor %}
             {% else %}

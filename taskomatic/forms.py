@@ -64,7 +64,7 @@ class InventoryForm(ModelForm):
             }),
             "itemDescription": Textarea(attrs={
             'class': 'rounded px-3 py-[0.32rem] m-2',
-            'id': '#addInventoryModalFormDescription',
+            'id': 'addInventoryModalFormDescription',
             'rows': "6",
             'placeholder': "Item notes"
             })
