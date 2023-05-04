@@ -161,3 +161,18 @@ header {
     padding: 2%;
 }
 
+#addTaskModalFormTitle {
+    width: 80%;
+}
+
+#addTaskModalFormDescription {
+    width: 100%;
+}
+
+#addInventoryModalFormTitle {
+    width: 80%;
+}
+
+#addInventoryModalFormDescription {
+    width: 100%;
+}

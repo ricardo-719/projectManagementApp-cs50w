@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput
+from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput, NumberInput
 
 from .models import Project, Tasks, Inventory
 
@@ -37,13 +37,17 @@ class TaskForm(ModelForm):
         widgets = {
             "taskName": TextInput(attrs={
             'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'id': 'addTaskModalFormTitle',
             'placeholder': "Project Title"
             }),
             "taskDescription": Textarea(attrs={
             'class': 'rounded px-3 py-[0.32rem] m-2',
-            'cols': "60",
+            'id': 'addTaskModalFormDescription',
             'rows': "6",
             'placeholder': "Task details"
+            }),
+            'itemQty': NumberInput(attrs={
+                'placeholder': "Amount"
             })
         }
 
@@ -55,11 +59,12 @@ class InventoryForm(ModelForm):
         widgets = {
             "itemName": TextInput(attrs={
             'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'id': 'addInventoryModalFormTitle',
             'placeholder': "Project Title"
             }),
             "itemDescription": Textarea(attrs={
             'class': 'rounded px-3 py-[0.32rem] m-2',
-            'cols': "60",
+            'id': '#addInventoryModalFormDescription',
             'rows': "6",
             'placeholder': "Item notes"
             })

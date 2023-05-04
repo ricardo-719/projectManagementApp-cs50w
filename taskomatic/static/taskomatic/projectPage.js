@@ -33,7 +33,11 @@ const editFormSubmit = () => {
 }
 
     // Event listeners
-addTask.addEventListener("click", () => showModal('task'));
-addInventory.addEventListener("click", () => showModal('inventory'));
+if (addTask){
+    addTask.addEventListener("click", () => showModal('task'));
+}
+if (addInventory) {
+    addInventory.addEventListener("click", () => showModal('inventory'));
+}
 closeModal.addEventListener("click", hideModal);
 editIcon.addEventListener("click", editFormSubmit);
