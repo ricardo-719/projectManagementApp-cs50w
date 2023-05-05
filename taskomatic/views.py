@@ -65,7 +65,20 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "taskomatic/register.html")
-    
+
+
+def project_view(request, pk):
+    project = Project.objects.filter(id=pk)
+    tasks = Tasks.objects.filter(projectId = pk)
+    inventory = Inventory.objects.filter(projectId = pk)
+    return render(request, "taskomatic/projectPage.html", {
+        'project': project,
+        'tasks': tasks,
+        'inventory': inventory,
+        'taskForm': TaskForm(),
+        'inventoryForm': InventoryForm()
+    })
+
 
 def new_project(request):
     if request.method == "POST":
@@ -87,6 +100,7 @@ def new_project(request):
         "form": ProjectForm()
     })
 
+
 def edit_project(request):
     if request.method == "POST":
         projectId = request.POST['projectId']
@@ -97,23 +111,43 @@ def edit_project(request):
         })
     return render(request, "taskomatic/register.html")
 
-def project_view(request, pk):
-    project = Project.objects.filter(id=pk)
-    tasks = Tasks.objects.filter(projectId = pk)
-    inventory = Inventory.objects.filter(projectId = pk)
-    return render(request, "taskomatic/projectPage.html", {
-        'project': project,
-        'tasks': tasks,
-        'inventory': inventory,
-        'taskForm': TaskForm(),
-        'inventoryForm': InventoryForm()
-    })
 
 def delete_project(request):
     if request.method == "POST":
         projectId = request.POST['toDeleteProjectId']
-        # TODO: Add authentication based on ownership
         projectToDelete = Project.objects.get(id=projectId)
-        projectToDelete.delete()
-        return HttpResponseRedirect(reverse("index"))
+
+        # Verify ownership
+        if str(request.user) == projectToDelete.owner:
+            projectToDelete.delete()
+            return HttpResponseRedirect(reverse("index"))
+        
     return HttpResponseRedirect(reverse("register"))
+
+
+def handle_tasks(request):
+    if request.method == "POST":
+        action = request.POST['action']
+        if action == 'add':
+            print('adding...')
+        elif action == 'edit':
+            print('editing...')
+        elif action == 'delete':
+            print('deleting...')
+        else:
+            print('Something went wrong...')
+    return HttpResponseRedirect(reverse("index"))
+
+
+def handle_inventory(request):
+    if request.method == "POST":
+        action = request.POST['action']
+        if action == 'add':
+            print('adding...')
+        elif action == 'edit':
+            print('editing...')
+        elif action == 'delete':
+            print('deleting...')
+        else:
+            print('Something went wrong...')
+    return HttpResponseRedirect(reverse("index"))
