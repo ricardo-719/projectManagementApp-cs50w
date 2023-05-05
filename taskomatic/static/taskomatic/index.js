@@ -14,16 +14,19 @@ const editFormSubmit = (event) => {
 }
 const deleteProjectPrompt = (event) => {
     modal.classList.remove('hidden');
-    currentProjectId = event.target.id.replace('indexDeleteIcon', '')
+    currentProjectId = event.target.id.replace('indexDeleteIcon', '');
 }
 const hideModal = () => {
     modal.classList.add('hidden');
 }
 const submitDeleteRequest = () => {
-    console.log(currentProjectId)
     const selectDeleteForm = 'toDeleteForm' + currentProjectId;
     form = document.getElementById(selectDeleteForm);
-    form.submit()
+    console.log(currentProjectId);
+    console.log(selectDeleteForm);
+    console.log(form);
+    console.log(document.forms[selectDeleteForm])
+    document.forms[selectDeleteForm].requestSubmit()
 }
 
     // Event listener
@@ -34,4 +37,4 @@ for (let i = 0; i < deleteIcons.length; i++) {
     deleteIcons[i].addEventListener("click", deleteProjectPrompt);
 }
 closeModal.addEventListener("click", hideModal);
-deleteModalButton.addEventListener("click", submitDeleteRequest)
+deleteModalButton.addEventListener("click", submitDeleteRequest);

@@ -110,11 +110,10 @@ def project_view(request, pk):
     })
 
 def delete_project(request):
-    if request == "POST":
+    if request.method == "POST":
         projectId = request.POST['toDeleteProjectId']
         # TODO: Add authentication based on ownership
         projectToDelete = Project.objects.get(id=projectId)
         projectToDelete.delete()
-        print('Project deleted')
         return HttpResponseRedirect(reverse("index"))
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("register"))
