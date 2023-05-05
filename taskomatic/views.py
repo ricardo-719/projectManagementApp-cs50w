@@ -78,8 +78,8 @@ def new_project(request):
         if hTasks == 'on': hTasks = True
         if hInventory == 'on' : hInventory = True
         if hDeadline == 'on' : hDeadline = True
-        if dDate == "": dDate = None
-        
+        if dDate == "": dDate = None  
+
         f =  Project(user=request.user, owner=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
         f.save()
         return HttpResponseRedirect(reverse("index"))
@@ -108,3 +108,13 @@ def project_view(request, pk):
         'taskForm': TaskForm(),
         'inventoryForm': InventoryForm()
     })
+
+def delete_project(request):
+    if request == "POST":
+        projectId = request.POST['toDeleteProjectId']
+        # TODO: Add authentication based on ownership
+        projectToDelete = Project.objects.get(id=projectId)
+        projectToDelete.delete()
+        print('Project deleted')
+        return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("index"))

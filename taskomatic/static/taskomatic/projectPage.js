@@ -28,7 +28,6 @@ const hideModal = () => {
 }
 
 const editFormSubmit = () => {
-    console.log('test');
     document.editForm.submit();
 }
 
