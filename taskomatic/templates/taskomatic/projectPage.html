@@ -25,7 +25,12 @@
             <div class="p-3 tasksModalForm">
                 {{ taskForm.taskName }}
                 {{ taskForm.taskDescription }}
-                {{ taskForm.itemQty }}
+                <label for="id_taskDeadline" class="font-bold">Deadline:</label>
+                {{ taskForm.taskDeadline }}
+                <label for="id_taskLimitAlert" class="font-bold">Reminder:</label>
+                {{ taskForm.taskLimitAlert }}
+                <label for="id_taskImportance" class="font-bold">Priority:</label>
+                {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
             </div>
             <div class="p-3 inventoryModalForm">
                 {{ inventoryForm.itemName }}

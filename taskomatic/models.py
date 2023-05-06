@@ -34,12 +34,14 @@ class Inventory(models.Model):
     itemLimitAlert = models.IntegerField(null=True, blank=True)
 
 class Tasks(models.Model):
+    PRIORITY_LEVELS = [tuple([x,x]) for x in range(1,11)]
+
     projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     taskCreator = models.CharField(max_length=80)
     taskName = models.CharField(max_length=160)
     taskDescription = models.CharField(max_length=350)
     taskDeadline = models.DateField(null=True, blank=True)
-    taskImportance = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    taskImportance = models.PositiveIntegerField(default=PRIORITY_LEVELS[0], choices=PRIORITY_LEVELS, validators=[MinValueValidator(1), MaxValueValidator(10)])
     taskLimitAlert = models.DateField(null=True, blank=True)
 
 class Room(models.Model):

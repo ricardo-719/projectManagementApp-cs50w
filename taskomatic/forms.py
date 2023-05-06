@@ -36,19 +36,18 @@ class TaskForm(ModelForm):
         fields = "__all__"
         widgets = {
             "taskName": TextInput(attrs={
-            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1 ml-2",
             'id': 'addTaskModalFormTitle',
             'placeholder': "Project Title"
             }),
             "taskDescription": Textarea(attrs={
-            'class': 'rounded px-3 py-[0.32rem] m-2',
+            'class': 'rounded border px-3 py-[0.32rem] m-2',
             'id': 'addTaskModalFormDescription',
             'rows': "6",
             'placeholder': "Task details"
             }),
-            'itemQty': NumberInput(attrs={
-                'placeholder': "Amount"
-            })
+            'taskDeadline': DateInput(attrs=dict(type='date')),
+            'taskLimitAlert': DateInput(attrs=dict(type='date'))
         }
 
 class InventoryForm(ModelForm):
@@ -67,5 +66,8 @@ class InventoryForm(ModelForm):
             'id': 'addInventoryModalFormDescription',
             'rows': "6",
             'placeholder': "Item notes"
+            }),
+            'itemQty': NumberInput(attrs={
+                'placeholder': "Amount"
             })
         }
