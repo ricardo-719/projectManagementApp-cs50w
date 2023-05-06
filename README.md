@@ -13,7 +13,7 @@ Files:
 - newProject.html...
 - newProject.js contains a function that handles the display status (block/none) of the deadline form making it appear when needed otherwise keeping it hidden.
 - projectPage.html display the projects information and allow user to add and/or delete tasks and inventory. Allow owner of the project to manage teams, ect.
-- projectPage.js handles the javascript for the modals (add tasks, inventory, ect.)
+- projectPage.js handles the javascript for the modals (add tasks, inventory, ect.). To handle the tasks and inventory I use a system similar to redux, where an action is defined using javascript and is submitted to views to handle it in its corresponding way.
 
 Models:
 

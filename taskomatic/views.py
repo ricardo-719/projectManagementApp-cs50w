@@ -125,9 +125,8 @@ def delete_project(request):
     return HttpResponseRedirect(reverse("register"))
 
 
-def handle_tasks(request):
+def handle_tasks(request, action):
     if request.method == "POST":
-        action = request.POST['action']
         if action == 'add':
             print('adding...')
         elif action == 'edit':
@@ -135,7 +134,7 @@ def handle_tasks(request):
         elif action == 'delete':
             print('deleting...')
         else:
-            print('Something went wrong...')
+            print('Invalid Operation...')
     return HttpResponseRedirect(reverse("index"))
 
 

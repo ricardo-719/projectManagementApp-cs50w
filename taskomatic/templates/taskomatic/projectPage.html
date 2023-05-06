@@ -22,23 +22,34 @@
             <div class="border-b px-4 py-2">
                 <h3 class="modalTitle"></h3>
             </div>
-            <div class="p-3 tasksModalForm">
-                {{ taskForm.taskName }}
-                {{ taskForm.taskDescription }}
-                <label for="id_taskDeadline" class="font-bold">Deadline:</label>
-                {{ taskForm.taskDeadline }}
-                <label for="id_taskLimitAlert" class="font-bold">Reminder:</label>
-                {{ taskForm.taskLimitAlert }}
-                <label for="id_taskImportance" class="font-bold">Priority:</label>
-                {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
-            </div>
-            <div class="p-3 inventoryModalForm">
-                {{ inventoryForm.itemName }}
-                {{ inventoryForm.itemDescription }}
-            </div>
+            <form method="POST" action="{% url 'handleTasks' 'add' %}" name="addTaskForm" id="addTaskForm">
+                {% csrf_token %}
+                <div class="p-3 tasksModalForm">
+                    {{ taskForm.taskName }}
+                    {{ taskForm.taskDescription }}
+                    <label for="id_taskDeadline" class="font-bold">Deadline:</label>
+                    {{ taskForm.taskDeadline }}
+                    <label for="id_taskLimitAlert" class="font-bold">Reminder:</label>
+                    {{ taskForm.taskLimitAlert }}
+                    <label for="id_taskImportance" class="font-bold">Priority:</label>
+                    {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
+                </div>
+            </form>
+            <form method="POST" action="{% url 'handleTasks' 'add' %}" name="addInventoryForm" id="addInventoryForm">
+                {% csrf_token %}
+                <div class="p-3 inventoryModalForm">
+                    {{ inventoryForm.itemName }}
+                    {{ inventoryForm.itemDescription }}
+                    <label for="id_itemQty" class="font-bold">Amount:</label>
+                    {{ inventoryForm.itemQty }}
+                    {{ inventoryForm.itemUnit }} <br>
+                    <label for="id_itemLimitAlert" class="font-bold">Restock Alert:</label>
+                    {{ inventoryForm.itemLimitAlert }}
+                </div>
+            </form>
             <div class="flex justify-end items-center w-100 border-t p-3">
                 <button class="bg-red-400 hover:bg-red-500 px-3 py-1 rounded text-white mr-1 close-modal">Back</button>
-                <button class="bg-sky-400 hover:bg-sky-500 px-3 py-1 rounded text-white">Add</button>
+                <button class="bg-sky-400 hover:bg-sky-500 px-3 py-1 rounded text-white add-modal">Add</button>
             </div>
         </div>
     </div>

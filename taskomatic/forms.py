@@ -57,17 +57,22 @@ class InventoryForm(ModelForm):
         fields = "__all__"
         widgets = {
             "itemName": TextInput(attrs={
-            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1",
+            'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1 ml-2",
             'id': 'addInventoryModalFormTitle',
-            'placeholder': "Project Title"
+            'placeholder': "Item Name"
             }),
             "itemDescription": Textarea(attrs={
-            'class': 'rounded px-3 py-[0.32rem] m-2',
+            'class': 'rounded border px-3 py-[0.32rem] m-2',
             'id': 'addInventoryModalFormDescription',
             'rows': "6",
-            'placeholder': "Item notes"
+            'placeholder': "Item Notes"
             }),
             'itemQty': NumberInput(attrs={
+                'class': "border",
                 'placeholder': "Amount"
+            }),
+            'itemLimitAlert': NumberInput(attrs={
+                'class': "border mt-3",
+                'placeholder': "Restock Limit"
             })
         }
