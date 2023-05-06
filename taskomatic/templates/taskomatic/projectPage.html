@@ -25,6 +25,8 @@
             <form method="POST" action="{% url 'handleTasks' 'add' %}" name="addTaskForm" id="addTaskForm">
                 {% csrf_token %}
                 <div class="p-3 tasksModalForm">
+                    <input type="hidden" name="projectId" value="{{ item.id }}">
+                    <input type="hidden" name="taskCreator" value="{{ request.user }}">
                     {{ taskForm.taskName }}
                     {{ taskForm.taskDescription }}
                     <label for="id_taskDeadline" class="font-bold">Deadline:</label>

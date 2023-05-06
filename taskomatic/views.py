@@ -82,6 +82,7 @@ def project_view(request, pk):
 
 def new_project(request):
     if request.method == "POST":
+        form = ProjectForm(request.POST)
         pName = request.POST['projectName']
         pDescription = request.POST['projectDescription']
         hTasks = request.POST.get('hasTasks', False)
@@ -92,6 +93,11 @@ def new_project(request):
         if hInventory == 'on' : hInventory = True
         if hDeadline == 'on' : hDeadline = True
         if dDate == "": dDate = None  
+
+        if form.is_valid():
+            print('Yes')
+        else:
+            print(form.errors)
 
         f =  Project(user=request.user, owner=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
         f.save()
@@ -128,7 +134,18 @@ def delete_project(request):
 def handle_tasks(request, action):
     if request.method == "POST":
         if action == 'add':
-            print('adding...')
+            print('test')
+            print(request.POST['projectId'])
+            form = TaskForm(request.POST)
+            name = request.POST.get('taskName', "")
+            description = request.POST.get('taskDescription', "")
+            deadline = request.POST.get('taskDeadline', "")
+            limit = request.POST.get('taskLimitAlert', "")
+            importance = request.POST.get('taskImportance', "")
+            if form.is_valid():
+                print('Yes')
+            else:
+                print(form.errors)
         elif action == 'edit':
             print('editing...')
         elif action == 'delete':

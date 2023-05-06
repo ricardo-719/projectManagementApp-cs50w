@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput, NumberInput
+from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput, NumberInput, HiddenInput
 
 from .models import Project, Tasks, Inventory
 
@@ -35,6 +35,8 @@ class TaskForm(ModelForm):
         model = Tasks
         fields = "__all__"
         widgets = {
+            "projectId": HiddenInput(),
+            "taskCreator": HiddenInput(),
             "taskName": TextInput(attrs={
             'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1 ml-2",
             'id': 'addTaskModalFormTitle',
