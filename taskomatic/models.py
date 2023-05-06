@@ -13,7 +13,7 @@ class Project(models.Model):
     hasDeadline = models.BooleanField(default=False)
     hasInventory = models.BooleanField(default=False)
     hasTasks = models.BooleanField(default=False)
-    creationDate = models.DateField()
+    creationDate = models.DateField(null=True, blank=True)
     deadlineDate = models.DateField(null=True, blank=True)
 
     def __str__(self):

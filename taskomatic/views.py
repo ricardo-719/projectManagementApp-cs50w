@@ -81,29 +81,22 @@ def project_view(request, pk):
 
 
 def new_project(request):
+    user = User.objects.get(username=request.user)
     if request.method == "POST":
         form = ProjectForm(request.POST)
-        pName = request.POST['projectName']
-        pDescription = request.POST['projectDescription']
-        hTasks = request.POST.get('hasTasks', False)
-        hInventory = request.POST.get('hasInventory', False)
-        hDeadline = request.POST.get('hasDeadline', False)
-        dDate = request.POST['deadlineDate']
-        if hTasks == 'on': hTasks = True
-        if hInventory == 'on' : hInventory = True
-        if hDeadline == 'on' : hDeadline = True
-        if dDate == "": dDate = None  
 
         if form.is_valid():
-            print('Yes')
+            f =  Project(user=form.cleaned_data['user'], owner=form.cleaned_data['owner'], projectName=form.cleaned_data['projectName'], 
+                         projectDescription=form.cleaned_data['projectDescription'], hasTasks=form.cleaned_data['hasTasks'], 
+                         hasInventory=form.cleaned_data['hasInventory'], hasDeadline=form.cleaned_data['hasDeadline'], 
+                         deadlineDate=form.cleaned_data['deadlineDate'], creationDate=datetime.now().strftime("%Y-%m-%d"))
+            f.save()
         else:
             print(form.errors)
-
-        f =  Project(user=request.user, owner=request.user, projectName=pName, projectDescription=pDescription, hasTasks=hTasks, hasInventory=hInventory, hasDeadline=hDeadline, deadlineDate=dDate, creationDate=datetime.now().strftime("%Y-%m-%d"))
-        f.save()
         return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
-        "form": ProjectForm()
+        "form": ProjectForm(),
+        "user": user
     })
 
 
