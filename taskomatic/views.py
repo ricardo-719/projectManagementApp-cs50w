@@ -148,11 +148,19 @@ def handle_tasks(request, action):
     return HttpResponseRedirect(reverse("index"))
 
 
-def handle_inventory(request):
+def handle_inventory(request, action):
     if request.method == "POST":
-        action = request.POST['action']
         if action == 'add':
-            print('adding...')
+            form = InventoryForm(request.POST)
+
+            if form.is_valid():
+                f = Inventory(projectId=form.cleaned_data['projectId'], itemName=form.cleaned_data['itemName'], itemDescription=form.cleaned_data['itemDescription'],
+                              itemQty=form.cleaned_data['itemQty'], itemUnit=form.cleaned_data['itemUnit'], itemLimitAlert=form.cleaned_data['itemLimitAlert'])
+                f.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                print(form.errors)
+                
         elif action == 'edit':
             print('editing...')
         elif action == 'delete':

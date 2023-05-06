@@ -37,9 +37,10 @@
                     {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
                 </div>
             </form>
-            <form method="POST" action="{% url 'handleTasks' 'add' %}" name="addInventoryForm" id="addInventoryForm">
+            <form method="POST" action="{% url 'handleInventory' 'add' %}" name="addInventoryForm" id="addInventoryForm">
                 {% csrf_token %}
                 <div class="p-3 inventoryModalForm">
+                    <input type="hidden" name="projectId" value="{{ item.id }}">
                     {{ inventoryForm.itemName }}
                     {{ inventoryForm.itemDescription }}
                     <label for="id_itemQty" class="font-bold">Amount:</label>

@@ -58,6 +58,7 @@ class InventoryForm(ModelForm):
         model = Inventory
         fields = "__all__"
         widgets = {
+            "projectId": HiddenInput(),
             "itemName": TextInput(attrs={
             'class': "max-w-lg rounded border px-3 py-[0.32rem] mb-1 ml-2",
             'id': 'addInventoryModalFormTitle',

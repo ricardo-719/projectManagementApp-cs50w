@@ -11,6 +11,6 @@ urlpatterns = [
     path("editProject", views.edit_project, name="editProject"),
     path("deleteProject", views.delete_project, name="deleteProject"),
     path("handleTasks/<str:action>", views.handle_tasks, name="handleTasks"),
-    path("handleInventory/<str:action", views.handle_inventory, name="hamdleInventory"),
+    path("handleInventory/<str:action>", views.handle_inventory, name="handleInventory"),
     path("project/<str:pk>/", views.project_view, name="projectPage")
 ]
