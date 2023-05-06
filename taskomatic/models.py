@@ -43,6 +43,7 @@ class Tasks(models.Model):
     taskDeadline = models.DateField(null=True, blank=True)
     taskImportance = models.PositiveIntegerField(default=PRIORITY_LEVELS[0], choices=PRIORITY_LEVELS, validators=[MinValueValidator(1), MaxValueValidator(10)])
     taskLimitAlert = models.DateField(null=True, blank=True)
+    taskCreationDate = models.DateField(null=True, blank=True)
 
 class Room(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

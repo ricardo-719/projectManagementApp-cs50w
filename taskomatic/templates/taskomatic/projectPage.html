@@ -62,11 +62,11 @@
                 {% if tasks %}
                     {% for task in tasks %}
             <p>{{ task.taskName }}</p>
+                    {% endfor %}
             <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Task
-            </button>
-                    {% endfor %}
+            </button>   
                 {% else %}
             <p>Currently, there are no tasks.</p>
             <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
@@ -86,11 +86,11 @@
                 {% if inventory %}
                     {% for inventoryItem in inventory %}
             <p>{{ inventoryItem.itemName }}</p>
+                    {% endfor %}
             <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Inventory
             </button>
-                    {% endfor %}
                 {% else %}
             <p>Currently, there is no inventory.</p>
             <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 

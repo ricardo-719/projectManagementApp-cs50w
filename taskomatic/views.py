@@ -93,6 +93,7 @@ def new_project(request):
             f.save()
         else:
             print(form.errors)
+
         return HttpResponseRedirect(reverse("index"))
     return render(request, "taskomatic/newProject.html", {
         "form": ProjectForm(),
@@ -127,18 +128,17 @@ def delete_project(request):
 def handle_tasks(request, action):
     if request.method == "POST":
         if action == 'add':
-            print('test')
-            print(request.POST['projectId'])
             form = TaskForm(request.POST)
-            name = request.POST.get('taskName', "")
-            description = request.POST.get('taskDescription', "")
-            deadline = request.POST.get('taskDeadline', "")
-            limit = request.POST.get('taskLimitAlert', "")
-            importance = request.POST.get('taskImportance', "")
+            
             if form.is_valid():
-                print('Yes')
+                f = Tasks(projectId=form.cleaned_data['projectId'], taskCreator=form.cleaned_data['taskCreator'], taskName=form.cleaned_data['taskName'],
+                          taskDescription=form.cleaned_data['taskDescription'], taskDeadline=form.cleaned_data['taskDeadline'], taskLimitAlert=form.cleaned_data['taskLimitAlert'], 
+                          taskImportance=form.cleaned_data['taskImportance'], taskCreationDate=datetime.now().strftime("%Y-%m-%d"))
+                f.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 print(form.errors)
+
         elif action == 'edit':
             print('editing...')
         elif action == 'delete':
