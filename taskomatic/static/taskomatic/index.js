@@ -22,10 +22,6 @@ const hideModal = () => {
 const submitDeleteRequest = () => {
     const selectDeleteForm = 'toDeleteForm' + currentProjectId;
     form = document.getElementById(selectDeleteForm);
-    console.log(currentProjectId);
-    console.log(selectDeleteForm);
-    console.log(form);
-    console.log(document.forms[selectDeleteForm])
     document.forms[selectDeleteForm].requestSubmit()
 }
 

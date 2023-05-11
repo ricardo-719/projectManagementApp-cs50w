@@ -15,6 +15,12 @@ def index(request):
         "projects": projects
     })
 
+def users_view(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ""
+    users = User.objects.filter(username__icontains=q)
+    return render(request, "taskomatic/users.html", {
+        "users": users
+    })
 
 def login_view(request):
     if request.method == "POST":

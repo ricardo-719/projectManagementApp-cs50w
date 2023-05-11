@@ -2,7 +2,7 @@
 
 A web-app for project management where the user is able to keep track of things such as deadlines, tasks and inventories. The application will alert according to user specifications and different views will provide overall information about one or more projects. Teams can be created with shared information, with the option of setting a Project Manager to follow-up on each of the team members, suggests tasks and set deadlines, etc.
 
-Files:
+## Files:
 
 - index.html...
 - views.py...
@@ -15,7 +15,7 @@ Files:
 - projectPage.html display the projects information and allow user to add and/or delete tasks and inventory. Allow owner of the project to manage teams, ect.
 - projectPage.js handles the javascript for the modals (add tasks, inventory, ect.). To handle the tasks and inventory I use a system similar to redux, where an action is defined using javascript and is submitted to views to handle it in its corresponding way.
 
-Models:
+## Models:
 
 Project model: database for projects
 Tasks model : database for tasks within projects
@@ -23,7 +23,7 @@ Inventory model: database for inventory within projects
 Room model: database for discussion rooms for shared projects
 Message model: database of all messages within the rooms
 
-Asset libraries & Technologies:
+## Asset libraries & Technologies:
 
 Font Awesome SVG Icons library for buttons such as the Edit button.
 Google Fonts

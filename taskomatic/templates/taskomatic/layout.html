@@ -47,6 +47,10 @@
                         </li>
                     {% endif %}
                 </ul>
+                <form action="{% url 'users' %}">
+                    <label for="" class="text-xl"><b>Search users: </b></label>
+                    <input type="text" name="q" class="border-2 rounded-md mt-10" placeholder="Search">
+                </form>
             </div>
         </div>
     </header>    

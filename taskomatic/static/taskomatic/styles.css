@@ -135,6 +135,7 @@ header {
 #tasksAndInventorySection {
     display: flex;
     justify-content: space-between;
+    width: 80%;
 }
 
 #tasksContainer {
@@ -145,8 +146,9 @@ header {
     border-radius: 0.5rem;
     min-height: 12rem;
     min-width: 14rem;
+    width: 90%;
     margin: 1%;
-    padding: 2%;
+    padding: 3%;
 }
 
 #inventoryContainer {
@@ -175,4 +177,19 @@ header {
 
 #addInventoryModalFormDescription {
     width: 95%;
+}
+
+.taskInstancesContainer {
+    display: flex;
+    justify-content: space-between;
+    min-height: 3rem;
+    border: 1px solid rgba(127, 155, 112, 0.3);
+    border-radius: 5%;
+    padding: 1%;
+    margin-bottom: 2%;
+}
+
+.taskInstancesContainer:hover {
+    background-color: rgba(127, 255, 212, 0.2);
+    border: none;
 }
