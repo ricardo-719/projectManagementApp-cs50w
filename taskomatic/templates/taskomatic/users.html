@@ -8,13 +8,13 @@
 <section class="w-[80%] mx-auto flex flex-col items-center">
     <h2>Users</h2>
     {% if users %}
-    <div class="p-2 border-4 border-cyan-200 rounded min-h-[20rem] w-96 shrink">
+    <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96 shrink">
         {% for user in users %}
         <p class="text-2xl">{{ user.username }}</p>
         {% endfor %}
     </div>  
     {% else %}
-    <div class="p-2 border-4 border-cyan-200 rounded min-h-[20rem] w-96 shrink">
+    <div class="p-2 border-4 border-cyan-300 rounded min-h-[20rem] w-96 shrink">
         <p class="text-xl text-center mt-10">No users found.</p>
     </div>
     {% endif %}

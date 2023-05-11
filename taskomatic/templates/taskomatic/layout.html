@@ -47,10 +47,12 @@
                         </li>
                     {% endif %}
                 </ul>
+                {% if user.is_authenticated %}
                 <form action="{% url 'users' %}">
                     <label for="" class="text-xl"><b>Search users: </b></label>
-                    <input type="text" name="q" class="border-2 rounded-md mt-10" placeholder="Search">
+                    <input type="text" name="q" class="border-2 rounded-md mt-10 min-h-[2rem] max-w-[9rem] placeholder:pl-2" placeholder="Search">
                 </form>
+                {% endif %}
             </div>
         </div>
     </header>    
