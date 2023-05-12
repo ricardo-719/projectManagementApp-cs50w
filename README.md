@@ -17,11 +17,14 @@ A web-app for project management where the user is able to keep track of things 
 
 ## Models:
 
-Project model: database for projects
-Tasks model : database for tasks within projects
-Inventory model: database for inventory within projects 
-Room model: database for discussion rooms for shared projects
+- **Project model:** database for projects
+- **Tasks model:** database for tasks within projects
+- **Inventory model:** database for inventory within projects 
+- **Room model:** database for discussion rooms for shared projects
 Message model: database of all messages within the rooms
+- **Relationship model**: In this model, from_user and to_user are foreign keys to the User model, representing the user who initiated the relationship and the user who was added. The status field stores the current status of the relationship, which can be 'pending', 'accepted', or 'rejected'. The created_at field stores the date and time the relationship was created. We also set unique_together = ('from_user', 'to_user') to ensure that each relationship is unique, so that a user cannot send the same request to another user multiple times.
+
+
 
 ## Asset libraries & Technologies:
 

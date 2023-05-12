@@ -16,11 +16,12 @@ def index(request):
     })
 
 def users_view(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ""
+    q = request.GET.get('q', '')
     users = User.objects.filter(username__icontains=q)
-    return render(request, "taskomatic/users.html", {
+    context = {
         "users": users
-    })
+    }
+    return render(request, "taskomatic/users.html", context)
 
 def login_view(request):
     if request.method == "POST":

@@ -5,16 +5,22 @@
 <div class="mx-auto w-[65%] mt-12">
     <a href="{{ request.META.HTTP_REFERER }}" class="hover:text-sky-700 h-full"><i class="fa-solid fa-arrow-left text-3xl pr-2"></i><span class="inline-block text-2xl relative bottom-1">Back</span></a>
 </div>
-<section class="w-[80%] mx-auto flex flex-col items-center">
-    <h2>Users</h2>
+<section class="w-[80%] mx-auto flex flex-col items-center mt-12">
+    <h2 class="text-3xl font-bold mb-4">Users</h2>
     {% if users %}
-    <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96 shrink">
+    <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96">
         {% for user in users %}
-        <p class="text-2xl">{{ user.username }}</p>
+        <div class="flex justify-between items-center mb-4 mt-4">
+            <p class="text-2xl ml-8">{{ user.username }}</p>
+            <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8">
+                <i class="fa-solid fa-user-plus"></i>
+            </button>
+        </div>
+        <hr>
         {% endfor %}
-    </div>  
+    </div>
     {% else %}
-    <div class="p-2 border-4 border-cyan-300 rounded min-h-[20rem] w-96 shrink">
+    <div class="p-2 border-4 border-cyan-300 rounded min-h-[20rem] w-96">
         <p class="text-xl text-center mt-10">No users found.</p>
     </div>
     {% endif %}

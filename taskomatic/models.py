@@ -66,3 +66,19 @@ class Message(models.Model):
 
     def __str__(self):
         return self.body[0:50]
+
+class Relationship(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+
