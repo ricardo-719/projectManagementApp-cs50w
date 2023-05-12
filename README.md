@@ -17,9 +17,10 @@ A web-app for project management where the user is able to keep track of things 
 
 ## Models:
 
-- **Project model:** database for projects
-- **Tasks model:** database for tasks within projects
-- **Inventory model:** database for inventory within projects 
+- **User model:** extends the built-in Django AbstractUser model, providing additional fields and methods. It allows to store information about users of the application.
+- **Project model:**  represents a project. It includes fields such as user, owner, projectName, projectDescription, hasDeadline, hasInventory, hasTasks, creationDate, and deadlineDate. It allows to store information about projects created by users, set deadlines and provide information in terms of visualization of tasks and inventory.
+- **Tasks model:** represents a task for a given project. It includes fields such as projectId, taskCreator, taskName, taskDescription, taskDeadline, taskImportance, taskLimitAlert, and taskCreationDate. It allows you to store information about tasks for a given project.
+- **Inventory model:** represents an inventory of items for a given project. It includes fields such as projectId, itemName, itemDescription, itemQty, itemUnit, and itemLimitAlert. It allows you to store information about items in an inventory for a given project.
 - **Room model:** database for discussion rooms for shared projects
 Message model: database of all messages within the rooms
 - **Relationship model**: In this model, from_user and to_user are foreign keys to the User model, representing the user who initiated the relationship and the user who was added. The status field stores the current status of the relationship, which can be 'pending', 'accepted', or 'rejected'. The created_at field stores the date and time the relationship was created. We also set unique_together = ('from_user', 'to_user') to ensure that each relationship is unique, so that a user cannot send the same request to another user multiple times.
