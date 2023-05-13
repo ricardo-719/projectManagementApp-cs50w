@@ -7,8 +7,6 @@
     {% endblock %}
 {% if user.is_authenticated %}
     <div id="dashboardContainer">
-        <h2>This is index</h2>
-        <h2>Dashboard</h2>
         <!-- "DELETE PROJECT" MODAL -->
         <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
             <div class="bg-white rounded shadow-lg w-1/3">
@@ -22,7 +20,24 @@
                 </div>
             </div>
         </div>
-        <div id="ongoingProjectsContainer">
+        <!-- MODAL END -->
+        <section id="indexUpperSection">
+            <div id="indexContacts">
+                <h2>Contacts</h2>
+                {% if contacts|length < 1 %}
+                    {% for contact in contacts %}
+                <p>{{ contact.to_user }}</p>
+                <p>NAME</p>
+                    {% endfor %}
+                {% else %}
+                <p>No contacts.</p>
+                {% endif %}
+            </div>
+            <div id="indexAlerts">
+                <h2>Notifications</h2>
+            </div>
+        </section>
+        <section id="ongoingProjectsContainer">
             <h2>Ongoing Projects</h2>
             <ul>
             {% if projects %}
@@ -54,7 +69,7 @@
                 <li>No projects.</li>
             {% endif %}
             </ul>
-        </div>    
+        </section>    
     </div>
 {% else %}
     <div

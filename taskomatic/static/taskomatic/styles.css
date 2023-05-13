@@ -39,6 +39,13 @@ header {
     align-items: center;
 }
 
+#indexUpperSection {
+    display: flex;
+    justify-content: space-around;
+    min-height: 15rem;
+    width: 100%;
+}
+
 #newProjectCard {
     margin: 0 auto;
     max-width: 65rem;

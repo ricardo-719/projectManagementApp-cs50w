@@ -7,12 +7,19 @@ from datetime import datetime
 from .forms import ProjectForm, TaskForm, InventoryForm
 from . import urls
 
-from .models import User, Project, Tasks, Inventory
+from .models import User, Project, Tasks, Inventory, Relationship
 
 def index(request):
     projects = Project.objects.all().order_by('-creationDate')
+    currentUserId = request.user.id
+    print(currentUserId)
+    currentUser = User.objects.get(id=currentUserId)
+    print(currentUser)
+    # TODO: Filter to get fromUser and toUser of current user to display on index
+    contacts = Relationship.objects.filter(from_user=currentUser)
     return render(request, "taskomatic/index.html", {
-        "projects": projects
+        "projects": projects,
+        "contacts": contacts
     })
 
 def users_view(request):
@@ -22,6 +29,31 @@ def users_view(request):
         "users": users
     }
     return render(request, "taskomatic/users.html", context)
+
+def add_contact(request, pk):
+    # Get the user that the current user wants to add as a contact
+    to_user = User.objects.get(id=pk)
+    currentUserId = request.user.id
+    from_user = User.objects.get(id=currentUserId)
+
+    # Create a new Relationship object with a status of "pending"
+    relationship = Relationship(from_user=from_user, to_user=to_user, status='pending')
+    relationship.save()
+
+    # Redirect the user back to the page they were on
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+#TODO: Once request has been sent create function to update to accepted or rejected accordingly
+""" def accept_contact(request, from_user_id):
+    # Get the relationship object where the current user is the "to_user" and the other user is the "from_user"
+    relationship = get_object_or_404(Relationship, to_user=request.user, from_user_id=from_user_id)
+
+    # Update the status to "accepted"
+    relationship.status = 'accepted'
+    relationship.save()
+
+    # Redirect the user back to the page they were on
+    return redirect(request.META.get('HTTP_REFERER')) """
 
 def login_view(request):
     if request.method == "POST":
