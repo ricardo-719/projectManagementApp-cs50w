@@ -24,10 +24,13 @@
         <section id="indexUpperSection">
             <div id="indexContacts">
                 <h2>Contacts</h2>
-                {% if contacts|length < 1 %}
+                {% if contacts|length > 1 %}
                     {% for contact in contacts %}
+                        {% if contact.status == "pending" %}
+                <p>{{ contact.to_user }} (Pending)</p>
+                        {% else %}
                 <p>{{ contact.to_user }}</p>
-                <p>NAME</p>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                 <p>No contacts.</p>

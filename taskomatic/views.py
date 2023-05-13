@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import Q
 from datetime import datetime
 from .forms import ProjectForm, TaskForm, InventoryForm
 from . import urls
@@ -11,15 +12,17 @@ from .models import User, Project, Tasks, Inventory, Relationship
 
 def index(request):
     projects = Project.objects.all().order_by('-creationDate')
-    currentUserId = request.user.id
-    print(currentUserId)
-    currentUser = User.objects.get(id=currentUserId)
-    print(currentUser)
-    # TODO: Filter to get fromUser and toUser of current user to display on index
-    contacts = Relationship.objects.filter(from_user=currentUser)
-    return render(request, "taskomatic/index.html", {
+    if request.user.is_authenticated:
+        currentUserId = request.user.id
+        currentUser = User.objects.get(id=currentUserId)
+        contacts = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser), ~Q(status='rejected'))
+
+        return render(request, "taskomatic/index.html", {
         "projects": projects,
         "contacts": contacts
+        })
+    return render(request, "taskomatic/index.html", {
+        "projects": projects
     })
 
 def users_view(request):
