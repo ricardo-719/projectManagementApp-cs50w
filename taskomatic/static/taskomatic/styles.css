@@ -41,9 +41,9 @@ header {
 
 #indexUpperSection {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     min-height: 15rem;
-    width: 100%;
+    width: 85%;
 }
 
 #newProjectCard {
@@ -80,6 +80,34 @@ header {
     align-items: center;
     width: 80%;
     margin: 0 auto;
+}
+
+#indexContacts {
+    display: flex; 
+    flex-direction: column;
+    width: 45%;
+}
+
+#indexAlerts {
+    width: 45%;
+}
+
+.contactInstanceContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    width: 100%;
+}
+
+.contactInstance {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.4rem;
+    margin: 0.3rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 255, 255, 0.2);
+    border-radius: 0.3rem;
 }
 
 #ongoingProjectsContainer {
