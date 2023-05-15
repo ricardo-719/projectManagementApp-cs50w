@@ -10,13 +10,21 @@
     {% if users %}
     <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96">
         {% for user in users %}
+            {% if user.username not in acceptedRelationshipStatus %}
         <div class="flex justify-between items-center mb-4 mt-4">
-            <p class="text-2xl ml-8">{{ user.username }}</p>
+            <p class="text-2xl ml-8">{{ user.username }}</p>  
+                {% if user.username in pendingRelationshipStatus %}
+            <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8 cursor-default" title="Pending">
+                <i class="fa-solid fa-user-plus" style="color: #797a7c;"></i>
+            </button>
+                {% else %}
             <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8">
                 <a href="{% url 'addContact' user.id %}"><i class="fa-solid fa-user-plus"></i></a>  
             </button>
+                {% endif %}
         </div>
         <hr>
+            {% endif %}
         {% endfor %}
     </div>
     {% else %}

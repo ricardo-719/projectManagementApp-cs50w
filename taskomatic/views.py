@@ -27,9 +27,31 @@ def index(request):
 
 def users_view(request):
     q = request.GET.get('q', '')
+    currentUserId = request.user.id
+    currentUser = User.objects.get(id=currentUserId)
     users = User.objects.filter(username__icontains=q)
+    relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
+    acceptedRelationshipStatus = {}
+    pendingRelationshipStatus = {}
+    for relation in relationship:
+        if relation.status == 'pending':
+            if currentUser == relation.from_user:
+                user = str(relation.to_user)
+                pendingRelationshipStatus[user] = relation.status
+            elif currentUser == relation.to_user:
+                user = str(relation.from_user)
+                pendingRelationshipStatus[user] = relation.status
+        elif relation.status == 'accepted':
+            if currentUser == relation.from_user:
+                user = str(relation.to_user)
+                acceptedRelationshipStatus[user] = relation.status
+            elif currentUser == relation.to_user:
+                user = str(relation.from_user)
+                acceptedRelationshipStatus[user] = relation.status
     context = {
-        "users": users
+        "users": users,
+        "acceptedRelationshipStatus": acceptedRelationshipStatus,
+        "pendingRelationshipStatus": pendingRelationshipStatus
     }
     return render(request, "taskomatic/users.html", context)
 
