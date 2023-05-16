@@ -89,7 +89,10 @@
             {% if item.hasInventory %}
                 {% if inventory %}
                     {% for inventoryItem in inventory %}
-            <p>{{ inventoryItem.itemName }}</p>
+            <div class="inventoryInstancesContainer">
+                <span class="inline-block font-bold">{{ inventoryItem.itemName }}</span>
+                <span class="inline-block font-medium italic text-sm mr-2">{{inventoryItem.itemQty}} {{inventoryItem.get_itemUnit_display}}</span>
+            </div>
                     {% endfor %}
             <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">

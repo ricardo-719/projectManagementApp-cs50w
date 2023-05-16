@@ -40,6 +40,7 @@ class Tasks(models.Model):
     taskCreator = models.CharField(max_length=80)
     taskName = models.CharField(max_length=160)
     taskDescription = models.CharField(max_length=350)
+    taskCompletion = models.BooleanField(default=False)
     taskDeadline = models.DateField(null=True, blank=True)
     taskImportance = models.PositiveIntegerField(default=PRIORITY_LEVELS[0], choices=PRIORITY_LEVELS, validators=[MinValueValidator(1), MaxValueValidator(10)])
     taskLimitAlert = models.DateField(null=True, blank=True)
