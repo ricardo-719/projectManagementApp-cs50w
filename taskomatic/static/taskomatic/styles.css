@@ -89,7 +89,8 @@ header {
 }
 
 #indexAlerts {
-    width: 45%;
+    margin-right: 5%;
+    width: 40%;
 }
 
 .contactInstanceContainer {
@@ -107,6 +108,23 @@ header {
     margin: 0.3rem;
     padding: 0.5rem;
     background-color: rgba(0, 255, 255, 0.2);
+    border-radius: 0.3rem;
+}
+
+.noContact {
+    margin-top: 2rem;
+    align-self: center;
+    font-size: 1.5rem;
+}
+
+.alertInstance {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.4rem;
+    margin: 0.3rem;
+    padding: 0.5rem;
+    background-color: rgba(127, 255, 212, 0.2);
     border-radius: 0.3rem;
 }
 

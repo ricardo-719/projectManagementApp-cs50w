@@ -25,21 +25,30 @@
             <div id="indexContacts">
                 <h2>Contacts</h2>
                 <div class="contactInstanceContainer">
-                {% if contacts|length > 1 %}
+                {% if contacts|length > 0 %}
                     {% for contact in contacts %}
                         {% if contact.status == "pending" %}
+                            {% if contact.to_user != request.user%}
                     <div class="contactInstance">
                         <span>{{ contact.to_user }} <span class="text-sm">(Pending)</span></span> 
-                        <i class="fa-regular fa-message hover:text-sky-600 cursor-pointer"></i>
                     </div>
+                            {% endif %}
                         {% else %}
+                            {% if contact.to_user != request.user%}
                     <div class="contactInstance">
                         <p>{{ contact.to_user }}</p>
+                        <i class="fa-regular fa-message hover:text-sky-600 cursor-pointer" style="color: #004225" title="Send message"></i>
                     </div>
+                            {% else %}
+                    <div class="contactInstance">
+                        <p>{{ contact.from_user }}</p>
+                        <i class="fa-regular fa-message hover:text-sky-600 cursor-pointer" style="color: #004225" title="Send message"></i>
+                    </div>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <div class="contactInstance">
+                    <div class="noContact">
                         <p>No contacts.</p>
                     </div>
                 {% endif %}
@@ -47,7 +56,15 @@
             </div>
             <div id="indexAlerts">
                 <h2>Notifications</h2>
-                <p>Notification here</p>
+                {% for contact in contactRequests %}
+                <div class="alertInstance">
+                    <p>{{ contact.from_user }} <i class="text-sm"> sent contact request.</i></p>
+                    <span>
+                        <a href="{% url 'acceptContact' contact.id %}"><i class="fa-solid fa-check hover:text-sky-600 cursor-pointer #004225 mr-2" title="Accept"></i></a>
+                        <a href="{% url 'rejectContact' contact.id %}"><i class="fa-solid fa-xmark hover:text-red-600 cursor-pointer #004225 mr-4" title="Decline"></i></a>
+                    </span>
+                 </div>
+                {% endfor %}
             </div>
         </section>
         <section id="ongoingProjectsContainer">

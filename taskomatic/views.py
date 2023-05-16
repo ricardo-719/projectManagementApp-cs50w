@@ -10,26 +10,30 @@ from . import urls
 
 from .models import User, Project, Tasks, Inventory, Relationship
 
+
 def index(request):
     projects = Project.objects.all().order_by('-creationDate')
     if request.user.is_authenticated:
         currentUserId = request.user.id
         currentUser = User.objects.get(id=currentUserId)
         contacts = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser), ~Q(status='rejected'))
+        contactRequests = Relationship.objects.filter(Q(to_user=currentUser), Q(status="pending"))
 
         return render(request, "taskomatic/index.html", {
         "projects": projects,
-        "contacts": contacts
+        "contacts": contacts,
+        "contactRequests": contactRequests
         })
     return render(request, "taskomatic/index.html", {
         "projects": projects
     })
 
+
 def users_view(request):
     q = request.GET.get('q', '')
     currentUserId = request.user.id
     currentUser = User.objects.get(id=currentUserId)
-    users = User.objects.filter(username__icontains=q)
+    users = User.objects.filter(Q(username__icontains=q), ~Q(username=currentUser))
     relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
     acceptedRelationshipStatus = {}
     pendingRelationshipStatus = {}
@@ -55,6 +59,7 @@ def users_view(request):
     }
     return render(request, "taskomatic/users.html", context)
 
+
 def add_contact(request, pk):
     # Get the user that the current user wants to add as a contact
     to_user = User.objects.get(id=pk)
@@ -68,6 +73,21 @@ def add_contact(request, pk):
     # Redirect the user back to the page they were on
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+def accept_contact(request, pk):
+    relationshipToUpdate = Relationship.objects.get(id=pk)
+    relationshipToUpdate.status = "accepted"
+    relationshipToUpdate.save()
+    return HttpResponseRedirect(reverse("index"))
+
+
+def reject_contact(request, pk):
+    relationshipToUpdate = Relationship.objects.get(id=pk)
+    relationshipToUpdate.status = "rejected"
+    relationshipToUpdate.save()
+    return HttpResponseRedirect(reverse("index"))
+
+
 #TODO: Once request has been sent create function to update to accepted or rejected accordingly
 """ def accept_contact(request, from_user_id):
     # Get the relationship object where the current user is the "to_user" and the other user is the "from_user"
@@ -79,6 +99,7 @@ def add_contact(request, pk):
 
     # Redirect the user back to the page they were on
     return redirect(request.META.get('HTTP_REFERER')) """
+
 
 def login_view(request):
     if request.method == "POST":
@@ -98,6 +119,7 @@ def login_view(request):
             })
     else:
         return render(request, "taskomatic/login.html")
+
 
 def logout_view(request):
     logout(request)
