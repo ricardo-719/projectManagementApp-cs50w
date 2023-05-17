@@ -49,7 +49,22 @@ class TaskForm(ModelForm):
             'placeholder': "Task details"
             }),
             'taskDeadline': DateInput(attrs=dict(type='date')),
-            'taskLimitAlert': DateInput(attrs=dict(type='date'))
+            'taskLimitAlert': DateInput(attrs=dict(type='date')),
+        }
+
+class CompletionTaskForm(ModelForm):
+    def __init__(self, task_id=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["taskCompletion"].widget.attrs.update({
+            "value": task_id,
+            "name": "taskCompletion"
+            })
+
+    class Meta:
+        model = Tasks
+        fields = ["taskCompletion"]
+        widgets = {
+            'taskCompletion': CheckboxInput()
         }
 
 class InventoryForm(ModelForm):

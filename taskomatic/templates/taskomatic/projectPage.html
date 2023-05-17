@@ -63,7 +63,17 @@
                 {% if tasks %}
                     {% for task in tasks %}
             <div class="taskInstancesContainer">
-                <span class="inline-block font-bold">{{ task.taskName }}</span>
+                <!-- Here will add checkmark to toggle taskCompletion which also must trigger animation through JavaScript. Consider using updating db through JS -->
+                <!-- Create a class taskCompleted and decide how completed tasks look like, when the page is re-loaded the completed task will appear at the bottom of the list -->
+                <form method="POST" action="{% url 'handleTasks' 'complete' %}" name="completeTaskForm{{ task.id }}" id="completeTaskForm{{ task.id }}">
+                    {% csrf_token %}
+                    {% for form in taskForms %}
+                        {% if form.instance.id == task.id %}
+                            {{ form.taskCompletion }}
+                        {% endif %}
+                    {% endfor %}
+                </form>
+                <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
             </div>
                     {% endfor %}

@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Q
 from datetime import datetime
-from .forms import ProjectForm, TaskForm, InventoryForm
+from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm
 from . import urls
 
 from .models import User, Project, Tasks, Inventory, Relationship
@@ -157,11 +157,19 @@ def project_view(request, pk):
     project = Project.objects.filter(id=pk)
     tasks = Tasks.objects.filter(projectId = pk)
     inventory = Inventory.objects.filter(projectId = pk)
+
+    # Form for task completion checkboxes
+    taskForms = []
+    for task in tasks:
+        taskFormInstance = CompletionTaskForm(instance=task, task_id=task.id)
+        taskForms.append(taskFormInstance)
+
     return render(request, "taskomatic/projectPage.html", {
         'project': project,
         'tasks': tasks,
         'inventory': inventory,
         'taskForm': TaskForm(),
+        'taskForms': taskForms,
         'inventoryForm': InventoryForm()
     })
 
@@ -215,11 +223,10 @@ def handle_tasks(request, action):
     if request.method == "POST":
         if action == 'add':
             form = TaskForm(request.POST)
-            
             if form.is_valid():
                 f = Tasks(projectId=form.cleaned_data['projectId'], taskCreator=form.cleaned_data['taskCreator'], taskName=form.cleaned_data['taskName'],
                           taskDescription=form.cleaned_data['taskDescription'], taskDeadline=form.cleaned_data['taskDeadline'], taskLimitAlert=form.cleaned_data['taskLimitAlert'], 
-                          taskImportance=form.cleaned_data['taskImportance'], taskCreationDate=datetime.now().strftime("%Y-%m-%d"))
+                          taskImportance=form.cleaned_data['taskImportance'], taskCompletion=form.cleaned_data['taskCompletion'], taskCreationDate=datetime.now().strftime("%Y-%m-%d"))
                 f.save()
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
@@ -229,6 +236,12 @@ def handle_tasks(request, action):
             print('editing...')
         elif action == 'delete':
             print('deleting...')
+        elif action == 'complete':
+            task_id = request.POST.get('taskCompletion')
+            task = Tasks.objects.get(id=task_id)
+            task.taskCompletion = True
+            task.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             print('Invalid Operation...')
     return HttpResponseRedirect(reverse("index"))
