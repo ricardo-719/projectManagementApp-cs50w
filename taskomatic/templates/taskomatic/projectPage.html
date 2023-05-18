@@ -62,10 +62,10 @@
             {% if item.hasTasks %}
                 {% if tasks %}
                     {% for task in tasks %}
-            <div class="taskInstancesContainer">
-                <!-- Here will add checkmark to toggle taskCompletion which also must trigger animation through JavaScript. Consider using updating db through JS -->
-                <!-- Create a class taskCompleted and decide how completed tasks look like, when the page is re-loaded the completed task will appear at the bottom of the list -->
-                <form method="POST" action="{% url 'handleTasks' 'complete' %}" name="completeTaskForm{{ task.id }}" id="completeTaskForm{{ task.id }}">
+            <div class="taskInstancesContainer" id="taskInstancesContainer{{ task.id }}">
+                <!-- decide how completed tasks look like, when the page is re-loaded the completed task will appear at the bottom of the list -->
+                <!-- for this the whole taskInstanceContainer has to be replicated bellow with a if conditional when taskCompletion is True -->
+                <form method="POST" action="{% url 'handleTasks' 'complete' %}" name="completeTaskForm{{ task.id }}" id="{{ task.id }}">
                     {% csrf_token %}
                     {% for form in taskForms %}
                         {% if form.instance.id == task.id %}

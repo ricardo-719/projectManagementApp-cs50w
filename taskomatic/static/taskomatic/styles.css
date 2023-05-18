@@ -247,6 +247,17 @@ header {
     border: none;
 }
 
+.taskCompleted {
+    text-decoration: line-through;
+    opacity: 0.5;
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.taskCompleted:hover {
+    opacity: 0.8;
+    background-color: rgba(211, 211, 211, 0.8);
+}
+
 .inventoryInstancesContainer {
     display: flex;
     justify-content: space-between;

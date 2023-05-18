@@ -46,11 +46,30 @@ const submitAddForm = (type) => {
     }
 }
 
+const applyTaskCompletedClass = (checkbox) => {
+    console.log('test')
+    const currentFormId = checkbox.parentElement.id;
+    const currentFormContainer = document.getElementById(`taskInstancesContainer${currentFormId}`);
+
+    if (checkbox.checked) {
+        currentFormContainer.classList.add('taskCompleted');
+    } else {
+        currentFormContainer.classList.remove('taskCompleted');
+    }
+};
+
 const submitCheckbox = (event) => {
-    const currentFormName = event.target.parentElement.id;
-    const currentForm = document.getElementById(currentFormName);
+    const currentFormId = event.target.parentElement.id;
+    const currentForm = document.getElementById(currentFormId);
+
+    applyTaskCompletedClass(event.target);
     currentForm.requestSubmit();
 }
+
+    // Apply initial state of checkboxes
+taskCompletionCheckboxes.forEach((checkbox) => {
+    applyTaskCompletedClass(checkbox);
+});
 
     // Event listeners
 if (addTask){
