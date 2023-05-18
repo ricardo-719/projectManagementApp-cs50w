@@ -238,8 +238,16 @@ def handle_tasks(request, action):
             print('deleting...')
         elif action == 'complete':
             task_id = request.POST.get('taskCompletion')
-            task = Tasks.objects.get(id=task_id)
-            task.taskCompletion = True
+            if task_id:
+                task = Tasks.objects.get(id=task_id)
+            else:
+                task_id = request.POST['hidTaskId']
+                task = Tasks.objects.get(id=task_id)
+
+            if not(task.taskCompletion):
+                task.taskCompletion = True
+            else:
+                task.taskCompletion = False
             task.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:

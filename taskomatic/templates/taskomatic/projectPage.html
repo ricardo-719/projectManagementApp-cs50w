@@ -69,6 +69,7 @@
                     {% csrf_token %}
                     {% for form in taskForms %}
                         {% if form.instance.id == task.id %}
+                            <input type="hidden" value="{{ task.id }}" name="hidTaskId">
                             {{ form.taskCompletion }}
                         {% endif %}
                     {% endfor %}
