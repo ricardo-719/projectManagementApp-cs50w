@@ -120,6 +120,10 @@
                 {% if inventory %}
                     {% for inventoryItem in inventory %}
             <div class="inventoryInstancesContainer">
+                <span class="ml-1 pr-2 inline-block">
+                    <p><i class="fa-regular fa-square-plus"></i></p>
+                    <p><i class="fa-regular fa-square-minus"></i></p>
+                </span>
                 <span class="inline-block font-bold">{{ inventoryItem.itemName }}</span>
                 <span class="inline-block font-medium italic text-sm mr-2">{{inventoryItem.itemQty}} {{inventoryItem.get_itemUnit_display}}</span>
             </div>
