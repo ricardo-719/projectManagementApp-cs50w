@@ -17,7 +17,7 @@
     </h2>
     <p class="descriptiveParagraph">{{ item.projectDescription }}</p>
     <!-- "ADD TASK/INVENTORY" MODAL -->
-    <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
+    <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 z-10 hidden">
         <div class="bg-white rounded shadow-lg w-1/3">
             <div class="border-b px-4 py-2">
                 <h3 class="modalTitle"></h3>
@@ -58,30 +58,49 @@
     </div>
     <div id="tasksAndInventorySection">
         <span id="tasksContainer">
-            <h3>Tasks</h3>
+            <h3 class="mb-1">Tasks</h3>
             {% if item.hasTasks %}
                 {% if tasks %}
                     {% for task in tasks %}
+                    {% if task.taskCompletion == False %}
             <div class="taskInstancesContainer" id="taskInstancesContainer{{ task.id }}">
-                <!-- decide how completed tasks look like, when the page is re-loaded the completed task will appear at the bottom of the list -->
-                <!-- for this the whole taskInstanceContainer has to be replicated bellow with a if conditional when taskCompletion is True -->
                 <form method="POST" action="{% url 'handleTasks' 'complete' %}" name="completeTaskForm{{ task.id }}" id="{{ task.id }}">
-                    {% csrf_token %}
-                    {% for form in taskForms %}
-                        {% if form.instance.id == task.id %}
-                            <input type="hidden" value="{{ task.id }}" name="hidTaskId">
-                            {{ form.taskCompletion }}
-                        {% endif %}
-                    {% endfor %}
+                        {% csrf_token %}
+                        {% for form in taskForms %}
+                            {% if form.instance.id == task.id %}   
+                                <input type="hidden" value="{{ task.id }}" name="hidTaskId">
+                                {{ form.taskCompletion }}
+                            {% endif %}
+                        {% endfor %}
                 </form>
                 <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
             </div>
+                    {% endif %}
+                    {% endfor %}
+                    <p class="font-bold">Completed</p>
+                    <hr class="mb-2">
+                    {% for task in tasks %}
+                    {% if task.taskCompletion == True %}
+            <div class="taskInstancesContainer" id="taskInstancesContainer{{ task.id }}">
+                <form method="POST" action="{% url 'handleTasks' 'complete' %}" name="completeTaskForm{{ task.id }}" id="{{ task.id }}">
+                        {% csrf_token %}
+                        {% for form in taskForms %}
+                            {% if form.instance.id == task.id %}    
+                                <input type="hidden" value="{{ task.id }}" name="hidTaskId">
+                                {{ form.taskCompletion }}    
+                            {% endif %}
+                        {% endfor %}
+                </form>
+                <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
+                <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
+            </div>
+                    {% endif %}
                     {% endfor %}
             <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
                 + Add Task
-            </button>   
+            </button>
                 {% else %}
             <p>Currently, there are no tasks.</p>
             <button type="button" class="addTaskButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
