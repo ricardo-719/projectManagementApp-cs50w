@@ -12,6 +12,7 @@ urlpatterns = [
     path("editProject", views.edit_project, name="editProject"),
     path("deleteProject", views.delete_project, name="deleteProject"),
     path("handleTasks/<str:action>", views.handle_tasks, name="handleTasks"),
+    path("handleInventory/<str:action>/<int:pk>", views.handle_inventory, name="handleInventory"),
     path("handleInventory/<str:action>", views.handle_inventory, name="handleInventory"),
     path("project/<str:pk>/", views.project_view, name="projectPage"),
     path("accept/<str:pk>/", views.accept_contact, name="acceptContact"),

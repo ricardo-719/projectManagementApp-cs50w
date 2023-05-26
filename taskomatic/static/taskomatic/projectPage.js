@@ -12,6 +12,9 @@ const addInventory = document.querySelector('.addInventoryButton');
 const closeModal = document.querySelector('.close-modal');
 const addModal = document.querySelector('.add-modal');
 const editIcon = document.getElementById('editIcon');
+    //Inventory restock & consument buttons
+const incrementButtons = document.querySelectorAll('.increment-btn');
+const decrementButtons = document.querySelectorAll('.decrement-btn');
 
     // Event handlers
 const showModal = (element) => {
@@ -85,3 +88,60 @@ editIcon.addEventListener("click", editFormSubmit);
 taskCompletionCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", submitCheckbox)
 })
+
+    // Restock & Consume inventory event listeners
+incrementButtons.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const pk = e.target.dataset.pk;
+        const url = `/handleInventory/increment/${pk}`;
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({})
+            });
+            if(response.ok) {
+                const qtyInstance = document.getElementById(`qty${pk}`);
+                const currentQty = parseInt(qtyInstance.innerText)
+                qtyInstance.innerText = currentQty + 1;
+            } else {
+                throw new Error('Request failed')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    });
+});
+
+decrementButtons.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const pk = e.target.dataset.pk;
+        const url = `/handleInventory/decrement/${pk}`;
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({})
+            });
+            if(response.ok) {
+                const qtyInstance = document.getElementById(`qty${pk}`);
+                const currentQty = parseInt(qtyInstance.innerText)
+                qtyInstance.innerText = currentQty - 1;
+            } else {
+                throw new Error('Request failed')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    });
+});

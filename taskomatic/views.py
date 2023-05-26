@@ -255,7 +255,8 @@ def handle_tasks(request, action):
     return HttpResponseRedirect(reverse("index"))
 
 
-def handle_inventory(request, action):
+def handle_inventory(request, action, pk=0):
+    print(pk)
     if request.method == "POST":
         if action == 'add':
             form = InventoryForm(request.POST)
@@ -267,11 +268,24 @@ def handle_inventory(request, action):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 print(form.errors)
-                
+        elif action == 'increment':
+            if pk:
+                item = Inventory.objects.get(id=pk)
+                item.itemQty += 1
+                item.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   
+        elif action == 'decrement':  
+            if pk:
+                item = Inventory.objects.get(id=pk)
+                item.itemQty -= 1
+                item.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))     
         elif action == 'edit':
             print('editing...')
         elif action == 'delete':
             print('deleting...')
         else:
             print('Something went wrong...')
+    
+    
     return HttpResponseRedirect(reverse("index"))

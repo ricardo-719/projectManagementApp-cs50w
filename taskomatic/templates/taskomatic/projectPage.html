@@ -121,11 +121,11 @@
                     {% for inventoryItem in inventory %}
             <div class="inventoryInstancesContainer">
                 <span class="ml-1 pr-2 inline-block">
-                    <p><i class="fa-regular fa-square-plus"></i></p>
-                    <p><i class="fa-regular fa-square-minus"></i></p>
+                    <a href="#" class="increment-btn"><p><i class="fa-regular fa-square-plus" data-pk="{{ inventoryItem.id }}">{% csrf_token %}</i></p></a>
+                    <a href="#" class="decrement-btn"><p><i class="fa-regular fa-square-minus" data-pk="{{ inventoryItem.id }}">{% csrf_token %}</i></p></a>
                 </span>
                 <span class="inline-block font-bold">{{ inventoryItem.itemName }}</span>
-                <span class="inline-block font-medium italic text-sm mr-2">{{inventoryItem.itemQty}} {{inventoryItem.get_itemUnit_display}}</span>
+                <span class="inline-block font-medium italic text-sm mr-2"><span class="inline-block" id="qty{{inventoryItem.id}}">{{inventoryItem.itemQty}}</span> {{inventoryItem.get_itemUnit_display}}</span>
             </div>
                     {% endfor %}
             <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
