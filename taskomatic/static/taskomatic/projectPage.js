@@ -50,7 +50,6 @@ const submitAddForm = (type) => {
 }
 
 const applyTaskCompletedClass = (checkbox) => {
-    console.log('test')
     const currentFormId = checkbox.parentElement.id;
     const currentFormContainer = document.getElementById(`taskInstancesContainer${currentFormId}`);
 
