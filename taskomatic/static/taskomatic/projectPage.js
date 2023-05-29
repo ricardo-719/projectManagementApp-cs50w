@@ -15,6 +15,7 @@ const editIcon = document.getElementById('editIcon');
     //Inventory restock & consument buttons
 const incrementButtons = document.querySelectorAll('.increment-btn');
 const decrementButtons = document.querySelectorAll('.decrement-btn');
+const inventoryEditBtns = document.querySelectorAll('.inventoryEditBtns')
 
     // Event handlers
 const showModal = (element) => {
@@ -136,6 +137,35 @@ decrementButtons.forEach((button) => {
                 const qtyInstance = document.getElementById(`qty${pk}`);
                 const currentQty = parseInt(qtyInstance.innerText)
                 qtyInstance.innerText = currentQty - 1;
+            } else {
+                throw new Error('Request failed')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    });
+});
+
+inventoryEditBtns.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        console.log('click test')
+        const pk = e.target.dataset.pk;
+        const url = `/handleInventory/edit/${pk}`;
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({})
+            });
+            if (response.ok) {
+                console.log(response);
+                //Refresh the page to pre-load forms
+                //Open Modal with forms
             } else {
                 throw new Error('Request failed')
             }

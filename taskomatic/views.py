@@ -221,6 +221,7 @@ def delete_project(request):
 
 def handle_tasks(request, action):
     if request.method == "POST":
+
         if action == 'add':
             form = TaskForm(request.POST)
             if form.is_valid():
@@ -234,8 +235,10 @@ def handle_tasks(request, action):
 
         elif action == 'edit':
             print('editing...')
+
         elif action == 'delete':
             print('deleting...')
+
         elif action == 'complete':
             task_id = request.POST.get('taskCompletion')
             if task_id:
@@ -243,13 +246,13 @@ def handle_tasks(request, action):
             else:
                 task_id = request.POST['hidTaskId']
                 task = Tasks.objects.get(id=task_id)
-
             if not(task.taskCompletion):
                 task.taskCompletion = True
             else:
                 task.taskCompletion = False
             task.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
         else:
             print('Invalid Operation...')
     return HttpResponseRedirect(reverse("index"))
@@ -258,9 +261,9 @@ def handle_tasks(request, action):
 def handle_inventory(request, action, pk=0):
     print(pk)
     if request.method == "POST":
+
         if action == 'add':
             form = InventoryForm(request.POST)
-
             if form.is_valid():
                 f = Inventory(projectId=form.cleaned_data['projectId'], itemName=form.cleaned_data['itemName'], itemDescription=form.cleaned_data['itemDescription'],
                               itemQty=form.cleaned_data['itemQty'], itemUnit=form.cleaned_data['itemUnit'], itemLimitAlert=form.cleaned_data['itemLimitAlert'])
@@ -268,20 +271,28 @@ def handle_inventory(request, action, pk=0):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 print(form.errors)
+
         elif action == 'increment':
             if pk:
                 item = Inventory.objects.get(id=pk)
                 item.itemQty += 1
                 item.save()
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   
+            
         elif action == 'decrement':  
             if pk:
                 item = Inventory.objects.get(id=pk)
                 item.itemQty -= 1
                 item.save()
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))     
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
+             
         elif action == 'edit':
-            print('editing...')
+            if pk:
+                item = Inventory.objects.get(id=pk)
+                form = InventoryForm(instance=item)
+                print('editing...')
+                return form
+
         elif action == 'delete':
             print('deleting...')
         else:
