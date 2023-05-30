@@ -1,0 +1,12 @@
+
+    {% csrf_token %}
+    <div class="p-3 inventoryModalForm">
+        <input type="hidden" name="projectId" value="{{ currentItem }}">
+        {{ inventoryForm.itemName }}
+        {{ inventoryForm.itemDescription }}
+        <label for="id_itemQty" class="font-bold">Amount:</label>
+        {{ inventoryForm.itemQty }}
+        {{ inventoryForm.itemUnit }} <br>
+        <label for="id_itemLimitAlert" class="font-bold">Restock Alert:</label>
+        {{ inventoryForm.itemLimitAlert }}
+    </div>

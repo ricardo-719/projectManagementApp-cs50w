@@ -13,7 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Task-O-Matic</title>
 </head>
-<body>
+<body id="appBody">
     <header>
         <a href="{% url 'index' %}"><img id="taskLogo" src="https://escrituras-eremitas.com/wp-content/uploads/2023/04/task-O-maticLogo.png" alt="Task-O-Matic"></a>
         <div class="navSection">
@@ -49,8 +49,8 @@
                 </ul>
                 {% if user.is_authenticated %}
                 <form action="{% url 'users' %}">
-                    <label for="" class="text-xl"><b>Search users: </b></label>
-                    <input type="text" name="q" class="border-2 rounded-md mt-10 min-h-[2rem] max-w-[9rem] placeholder:pl-2" placeholder="Search">
+                    <label for="searchQ" class="text-xl"><b>Search users: </b></label>
+                    <input type="text" name="q" id="searchQ" class="border-2 rounded-md mt-10 min-h-[2rem] max-w-[9rem] placeholder:pl-2" placeholder="Search">
                 </form>
                 {% endif %}
             </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Q
 from datetime import datetime
@@ -264,6 +264,7 @@ def handle_inventory(request, action, pk=0):
 
         if action == 'add':
             form = InventoryForm(request.POST)
+            print(request.POST['projectId'])
             if form.is_valid():
                 f = Inventory(projectId=form.cleaned_data['projectId'], itemName=form.cleaned_data['itemName'], itemDescription=form.cleaned_data['itemDescription'],
                               itemQty=form.cleaned_data['itemQty'], itemUnit=form.cleaned_data['itemUnit'], itemLimitAlert=form.cleaned_data['itemLimitAlert'])
@@ -288,10 +289,24 @@ def handle_inventory(request, action, pk=0):
              
         elif action == 'edit':
             if pk:
-                item = Inventory.objects.get(id=pk)
+                """ item = Inventory.objects.get(id=pk)
                 form = InventoryForm(instance=item)
                 print('editing...')
-                return form
+                return form """
+
+                item = Inventory.objects.get(id=pk)
+                updateInventoryForm = InventoryForm(instance=item)
+                currentItem = item.id
+                """ project = Project.objects.get(id=item.projectId.id) """
+
+                context = {
+                    "currentItem": currentItem,
+                    'inventoryForm': updateInventoryForm
+                }
+
+                inventoryPage_html = render(request, "taskomatic/inventoryForm.html", context).content.decode('utf-8')
+                
+                return JsonResponse({'inventoryPage_html': inventoryPage_html})
 
         elif action == 'delete':
             print('deleting...')

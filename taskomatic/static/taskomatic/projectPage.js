@@ -149,7 +149,6 @@ decrementButtons.forEach((button) => {
 inventoryEditBtns.forEach((button) => {
     button.addEventListener('click', async (e) => {
         e.preventDefault();
-        console.log('click test')
         const pk = e.target.dataset.pk;
         const url = `/handleInventory/edit/${pk}`;
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -163,9 +162,10 @@ inventoryEditBtns.forEach((button) => {
                 body: JSON.stringify({})
             });
             if (response.ok) {
-                console.log(response);
-                //Refresh the page to pre-load forms
-                //Open Modal with forms
+                const data = await response.json();
+                const inventoryPageHtml = data.inventoryPage_html
+                document.getElementById('addInventoryForm').innerHTML = inventoryPageHtml
+                showModal('inventory')
             } else {
                 throw new Error('Request failed')
             }
