@@ -164,7 +164,7 @@ inventoryEditBtns.forEach((button) => {
             if (response.ok) {
                 const data = await response.json();
                 const inventoryPageHtml = data.inventoryPage_html
-                document.getElementById('addInventoryForm').innerHTML = inventoryPageHtml
+                document.getElementById('addInventoryForm').outerHTML = inventoryPageHtml
                 showModal('inventory')
             } else {
                 throw new Error('Request failed')

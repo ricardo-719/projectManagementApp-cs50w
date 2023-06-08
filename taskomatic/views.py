@@ -264,13 +264,13 @@ def handle_inventory(request, action, pk=0):
 
         if action == 'add':
             form = InventoryForm(request.POST)
-            print(request.POST['projectId'])
             if form.is_valid():
                 f = Inventory(projectId=form.cleaned_data['projectId'], itemName=form.cleaned_data['itemName'], itemDescription=form.cleaned_data['itemDescription'],
                               itemQty=form.cleaned_data['itemQty'], itemUnit=form.cleaned_data['itemUnit'], itemLimitAlert=form.cleaned_data['itemLimitAlert'])
                 f.save()
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
+                print('Something went wrong')
                 print(form.errors)
 
         elif action == 'increment':
@@ -289,24 +289,42 @@ def handle_inventory(request, action, pk=0):
              
         elif action == 'edit':
             if pk:
-                """ item = Inventory.objects.get(id=pk)
-                form = InventoryForm(instance=item)
-                print('editing...')
-                return form """
-
                 item = Inventory.objects.get(id=pk)
                 updateInventoryForm = InventoryForm(instance=item)
-                currentItem = item.id
-                """ project = Project.objects.get(id=item.projectId.id) """
+                currentItemId = item.id
+                currentProjectId = item.projectId.id
 
                 context = {
-                    "currentItem": currentItem,
+                    "currentProjectId": currentProjectId,
+                    "currentItemId": currentItemId,
                     'inventoryForm': updateInventoryForm
                 }
 
                 inventoryPage_html = render(request, "taskomatic/inventoryForm.html", context).content.decode('utf-8')
                 
                 return JsonResponse({'inventoryPage_html': inventoryPage_html})
+            else:
+                print(request.POST)
+                print(request.POST['projectId'])
+                print(request.POST['itemName'])
+                print(request.POST['itemId'])
+                itemId = request.POST['itemId']
+                itemInstance = Inventory.objects.get(id=itemId)
+                form = InventoryForm(request.POST, instance=itemInstance)
+                if form.is_valid():
+                    cleaned_data = form.cleaned_data
+                    itemInstance.itemName = cleaned_data['itemName']
+                    itemInstance.itemDescription = cleaned_data['itemDescription']
+                    itemInstance.itemQty = cleaned_data['itemQty']
+                    itemInstance.itemUnit = cleaned_data['itemUnit']
+                    itemInstance.itemLimitAlert = cleaned_data['itemLimitAlert']
+                    itemInstance.save()
+                    print('Inventory Item Updated!')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                else:
+                    print('Something went wrong')
+                    print(form.errors)
+
 
         elif action == 'delete':
             print('deleting...')

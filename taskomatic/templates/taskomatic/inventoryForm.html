@@ -1,7 +1,8 @@
-
+<form method="POST" action="{% url 'handleInventory' 'edit' %}" name="addInventoryForm" id="addInventoryForm">
     {% csrf_token %}
     <div class="p-3 inventoryModalForm">
-        <input type="hidden" name="projectId" value="{{ currentItem }}">
+        <input type="hidden" name="projectId" value="{{ currentProjectId }}">
+        <input type="hidden" name="itemId" value="{{ currentItemId }}">
         {{ inventoryForm.itemName }}
         {{ inventoryForm.itemDescription }}
         <label for="id_itemQty" class="font-bold">Amount:</label>
@@ -10,3 +11,4 @@
         <label for="id_itemLimitAlert" class="font-bold">Restock Alert:</label>
         {{ inventoryForm.itemLimitAlert }}
     </div>
+</form> 
