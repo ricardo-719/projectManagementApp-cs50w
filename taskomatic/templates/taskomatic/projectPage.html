@@ -75,6 +75,7 @@
                 </form>
                 <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
+                <i class="fa-solid fa-xmark cursor-pointer inline" title="Remove"></i>
             </div>
                     {% endif %}
                     {% endfor %}
@@ -94,6 +95,7 @@
                 </form>
                 <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
+                <span style="text-decoration: none;"><i class="fa-solid fa-xmark cursor-pointer" title="Remove"></i></span> 
             </div>
                     {% endif %}
                     {% endfor %}
@@ -119,6 +121,7 @@
             {% if item.hasInventory %}
                 {% if inventory %}
                     {% for inventoryItem in inventory %}
+                        {% if inventoryItem.itemQty > 0 and inventoryItem.itemLimitAlert == None or inventoryItem.itemQty > inventoryItem.itemLimitAlert and inventoryItem.itemLimitAlert != None %}
             <div class="inventoryInstancesContainer relative">
                 <span class="ml-1 pr-2 inline-block">
                     <a href="#" class="increment-btn"><p><i class="fa-regular fa-square-plus" data-pk="{{ inventoryItem.id }}">{% csrf_token %}</i></p></a>
@@ -129,11 +132,37 @@
                     <span class="inline-block" id="qty{{inventoryItem.id}}">{{inventoryItem.itemQty}}</span> 
                     {{inventoryItem.get_itemUnit_display}}
                 </span>
-                <span class="inventoryEditBtns absolute left-60 bottom-10">
-                    <i class="fa-regular fa-pen-to-square hover:text-sky-600 cursor-pointer" data-pk="{{ inventoryItem.id }}" title="Edit">{% csrf_token %}</i>
+                <span class="flex flex-col">
+                    <i class="fa-solid fa-xmark cursor-pointer" title="Remove"></i>
+                    <span class="inventoryEditBtns">
+                        <i class="fa-regular fa-pen-to-square hover:text-sky-600 cursor-pointer" data-pk="{{ inventoryItem.id }}" title="Edit">{% csrf_token %}</i>
+                    </span>
                 </span>
             </div> 
-            
+                        {% endif %}
+                    {% endfor %}
+            <p class="font-bold">Restock</p>
+            <hr class="mb-2">
+                    {% for inventoryItem in inventory %}
+                        {% if inventoryItem.itemQty == 0 or inventoryItem.itemQty <= inventoryItem.itemLimitAlert %}
+            <div class="inventoryInstancesContainer relative opacity-50">
+                <span class="ml-1 pr-2 inline-block">
+                    <a href="#" class="increment-btn"><p><i class="fa-regular fa-square-plus" data-pk="{{ inventoryItem.id }}">{% csrf_token %}</i></p></a>
+                    <a href="#" class="decrement-btn"><p><i class="fa-regular fa-square-minus" data-pk="{{ inventoryItem.id }}">{% csrf_token %}</i></p></a>
+                </span>
+                <span class="inline-block font-bold">{{ inventoryItem.itemName }}</span>
+                <span class="inline-block font-medium italic text-sm mr-3">
+                    <span class="inline-block" id="qty{{inventoryItem.id}}">{{inventoryItem.itemQty}}</span> 
+                    {{inventoryItem.get_itemUnit_display}}
+                </span>
+                <span class="flex flex-col">
+                    <i class="fa-solid fa-xmark cursor-pointer" title="Remove"></i>
+                    <span class="inventoryEditBtns">
+                        <i class="fa-regular fa-pen-to-square hover:text-sky-600 cursor-pointer" data-pk="{{ inventoryItem.id }}" title="Edit">{% csrf_token %}</i>
+                    </span>
+                </span>
+            </div> 
+                        {% endif %}
                     {% endfor %}
             <button type="button" class="addInventoryButton inline-block rounded bg-sky-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal 
             text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-sky-300 max-w-s self-center">
