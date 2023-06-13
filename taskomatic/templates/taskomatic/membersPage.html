@@ -12,6 +12,7 @@
         <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96">
             {% for user in users %}
                 {% if user.username in acceptedRelationshipStatus %}
+                    {% if user.username not in members %}
             <div class="flex justify-between items-center mb-4 mt-4">
                 <p class="text-2xl ml-8">{{ user.username }}</p>  
                 <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8" title="Add">
@@ -19,6 +20,15 @@
                 </button>
             </div>
             <hr>
+                    {% elif user.username in members %}
+            <div class="flex justify-between items-center mb-4 mt-4">
+                <p class="text-2xl ml-8">{{ user.username }}</p>  
+                <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8" title="Add">
+                    <a href=""><i class="fa-solid fa-minus"></i></a>  
+                </button>
+            </div>
+            <hr>        
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

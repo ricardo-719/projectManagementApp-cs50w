@@ -342,10 +342,12 @@ def add_member(request, projectId):
         currentUserId = request.user.id
         currentProject = Project.objects.get(id=currentProjectId)
         currentUser = User.objects.get(id=currentUserId)
-        users = User.objects.filter(~Q(username=currentUser)) # REFACTOR CODE TO USE ONLY NEEDED Q's
+        users = User.objects.filter(~Q(username=currentUser))
+        members = Member.objects.filter(project=currentProject)
         relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
         acceptedRelationshipStatus = {}
         pendingRelationshipStatus = {}
+        currentMembers = {}
         for relation in relationship:
             if relation.status == 'pending':
                 if currentUser == relation.from_user:
@@ -361,12 +363,14 @@ def add_member(request, projectId):
                 elif currentUser == relation.to_user:
                     user = str(relation.from_user)
                     acceptedRelationshipStatus[user] = relation.status
-        print(currentUser)
-        print(currentProject)
+        for member in members:
+            memberInstance = str(member.user.username)
+            currentMembers[memberInstance] = True
         context = {
         "users": users,
         "acceptedRelationshipStatus": acceptedRelationshipStatus,
-        "pendingRelationshipStatus": pendingRelationshipStatus
+        "pendingRelationshipStatus": pendingRelationshipStatus,
+        "members": currentMembers
     }
         return render(request, "taskomatic/membersPage.html", context)
     else:
