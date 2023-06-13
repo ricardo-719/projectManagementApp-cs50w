@@ -12,10 +12,10 @@ from .models import User, Project, Tasks, Inventory, Relationship
 
 
 def index(request):
-    projects = Project.objects.all().order_by('-creationDate')
     if request.user.is_authenticated:
         currentUserId = request.user.id
         currentUser = User.objects.get(id=currentUserId)
+        projects = Project.objects.filter(user=currentUser).order_by('-creationDate')
         contacts = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser), ~Q(status='rejected'))
         contactRequests = Relationship.objects.filter(Q(to_user=currentUser), Q(status="pending"))
 
@@ -24,9 +24,7 @@ def index(request):
         "contacts": contacts,
         "contactRequests": contactRequests
         })
-    return render(request, "taskomatic/index.html", {
-        "projects": projects
-    })
+    return render(request, "taskomatic/index.html")
 
 
 def users_view(request):
