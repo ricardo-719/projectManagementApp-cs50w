@@ -18,6 +18,11 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.projectName} created by {self.user}"
+    
+class Member(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
 
 class Inventory(models.Model):
     UNITS_CATEGORIES = [

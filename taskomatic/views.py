@@ -8,7 +8,7 @@ from datetime import datetime
 from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm
 from . import urls
 
-from .models import User, Project, Tasks, Inventory, Relationship
+from .models import User, Project, Tasks, Inventory, Relationship, Member
 
 
 def index(request):
@@ -342,7 +342,7 @@ def add_member(request, projectId):
         currentUserId = request.user.id
         currentProject = Project.objects.get(id=currentProjectId)
         currentUser = User.objects.get(id=currentUserId)
-        users = User.objects.filter(Q(username__icontains=''), ~Q(username=currentUser)) # REFACTOR CODE TO USE ONLY NEEDED Q's
+        users = User.objects.filter(~Q(username=currentUser)) # REFACTOR CODE TO USE ONLY NEEDED Q's
         relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
         acceptedRelationshipStatus = {}
         pendingRelationshipStatus = {}
