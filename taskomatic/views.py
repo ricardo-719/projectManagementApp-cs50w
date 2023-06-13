@@ -325,9 +325,14 @@ def handle_inventory(request, action, pk=0):
                     print('Something went wrong')
                     print(form.errors)
 
-
         elif action == 'delete':
-            print('deleting...')
+            itemInstance = Inventory.objects.get(id=pk)
+            if itemInstance:
+                print(f'deleting item id: {pk}')
+                itemInstance.delete()
+            else:
+                print('Item not found')
+
         else:
             print('Something went wrong...')
     

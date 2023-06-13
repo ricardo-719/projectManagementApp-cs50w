@@ -12,10 +12,13 @@ const addInventory = document.querySelector('.addInventoryButton');
 const closeModal = document.querySelector('.close-modal');
 const addModal = document.querySelector('.add-modal');
 const editIcon = document.getElementById('editIcon');
-    //Inventory restock & consument buttons
+    //Inventory restock, consume, edit & delete buttons
 const incrementButtons = document.querySelectorAll('.increment-btn');
 const decrementButtons = document.querySelectorAll('.decrement-btn');
-const inventoryEditBtns = document.querySelectorAll('.inventoryEditBtns')
+const inventoryEditBtns = document.querySelectorAll('.inventoryEditBtns');
+const inventoryDeleteBtns = document.querySelectorAll('.inventoryDeleteBtns');
+    //Tasks delete buttons
+const taskDeleteBtns = document.querySelectorAll('.taskDeleteBtns');
 
     // Event handlers
 const showModal = (element) => {
@@ -89,10 +92,9 @@ taskCompletionCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", submitCheckbox)
 })
 
-    // Restock & Consume inventory event listeners
+    // Inventory CRUD operations event listeners/handlers
 incrementButtons.forEach((button) => {
     button.addEventListener('click', async (e) => {
-        e.preventDefault();
         const pk = e.target.dataset.pk;
         const url = `/handleInventory/increment/${pk}`;
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -120,7 +122,6 @@ incrementButtons.forEach((button) => {
 
 decrementButtons.forEach((button) => {
     button.addEventListener('click', async (e) => {
-        e.preventDefault();
         const pk = e.target.dataset.pk;
         const url = `/handleInventory/decrement/${pk}`;
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -148,7 +149,6 @@ decrementButtons.forEach((button) => {
 
 inventoryEditBtns.forEach((button) => {
     button.addEventListener('click', async (e) => {
-        e.preventDefault();
         const pk = e.target.dataset.pk;
         const url = `/handleInventory/edit/${pk}`;
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -174,3 +174,43 @@ inventoryEditBtns.forEach((button) => {
         }
     });
 });
+
+inventoryDeleteBtns.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+        const pk = e.target.dataset.pk;
+        const url = `/handleInventory/delete/${pk}`;
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+        try {
+            const response =await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({})
+            });
+            if (response.ok) {
+                let currentItem = document.getElementById(`inventoryInstanceContainer${pk}`);
+                if (currentItem) {
+                    currentItem.style.display = 'none';
+                } else {
+                    currentItem = document.getElementById(`inventoryInstanceRestockContainer${pk}`);
+                    currentItem.style.display = 'none';
+                }
+                console.log(currentItem)
+                console.log('Deleted')    
+            } else {
+                throw new Error('Request failed')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    });
+});
+
+    // Tasks Delete operation event listener/handler
+taskDeleteBtns.forEach((button) => {
+    button.addEventListener("click", async (e) => {
+
+    })
+})
