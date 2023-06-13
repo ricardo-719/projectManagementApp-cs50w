@@ -76,7 +76,7 @@
                 <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
                 <span class="taskDeleteBtns">
-                    <i class="fa-solid fa-xmark cursor-pointer hover:text-sky-600" title="Remove"></i>
+                    <i class="fa-solid fa-xmark cursor-pointer hover:text-sky-600" data-pk="{{ task.id }}" title="Remove">{% csrf_token %}</i>
                 </span>     
             </div>
                     {% endif %}
@@ -97,7 +97,9 @@
                 </form>
                 <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
-                <span style="text-decoration: none;"><i class="fa-solid fa-xmark cursor-pointer hover:text-sky-600" title="Remove"></i></span> 
+                <span style="text-decoration: none;" class="taskDeleteBtns">
+                    <i class="fa-solid fa-xmark cursor-pointer hover:text-sky-600" data-pk="{{ task.id }}" title="Remove">{% csrf_token %}</i>
+                </span> 
             </div>
                     {% endif %}
                     {% endfor %}

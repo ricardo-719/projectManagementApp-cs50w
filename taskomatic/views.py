@@ -219,7 +219,7 @@ def delete_project(request):
     return HttpResponseRedirect(reverse("register"))
 
 
-def handle_tasks(request, action):
+def handle_tasks(request, action, pk=0):
     if request.method == "POST":
 
         if action == 'add':
@@ -233,11 +233,14 @@ def handle_tasks(request, action):
             else:
                 print(form.errors)
 
-        elif action == 'edit':
-            print('editing...')
-
         elif action == 'delete':
-            print('deleting...')
+
+            taskInstance = Tasks.objects.get(id=pk)
+            if taskInstance:
+                print(f'deleting task id: {pk}')
+                taskInstance.delete()
+            else:
+                print('Task not found')
 
         elif action == 'complete':
             task_id = request.POST.get('taskCompletion')
@@ -254,7 +257,7 @@ def handle_tasks(request, action):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
         else:
-            print('Invalid Operation...')
+            print('Invalid operation')
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -304,10 +307,6 @@ def handle_inventory(request, action, pk=0):
                 
                 return JsonResponse({'inventoryPage_html': inventoryPage_html})
             else:
-                print(request.POST)
-                print(request.POST['projectId'])
-                print(request.POST['itemName'])
-                print(request.POST['itemId'])
                 itemId = request.POST['itemId']
                 itemInstance = Inventory.objects.get(id=itemId)
                 form = InventoryForm(request.POST, instance=itemInstance)
@@ -334,7 +333,7 @@ def handle_inventory(request, action, pk=0):
                 print('Item not found')
 
         else:
-            print('Something went wrong...')
+            print('Invalid operation')
     
     
     return HttpResponseRedirect(reverse("index"))

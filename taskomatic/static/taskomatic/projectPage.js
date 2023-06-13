@@ -182,7 +182,7 @@ inventoryDeleteBtns.forEach((button) => {
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
         try {
-            const response =await fetch(url, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     "X-CSRFToken": csrfToken
@@ -198,7 +198,7 @@ inventoryDeleteBtns.forEach((button) => {
                     currentItem.style.display = 'none';
                 }
                 console.log(currentItem)
-                console.log('Deleted')    
+                console.log('deleted')    
             } else {
                 throw new Error('Request failed')
             }
@@ -211,6 +211,30 @@ inventoryDeleteBtns.forEach((button) => {
     // Tasks Delete operation event listener/handler
 taskDeleteBtns.forEach((button) => {
     button.addEventListener("click", async (e) => {
+        console.log('click')
+        const pk = e.target.dataset.pk;
+        console.log(pk)
+        const url = `/handleTasks/delete/${pk}`;
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
-    })
-})
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({})
+            });
+            if (response.ok) {
+                let currentTask = document.getElementById(`taskInstancesContainer${pk}`);  
+                currentTask.style.display = 'none';
+                console.log(currentTask)
+                console.log('deleted')
+            } else {
+                throw new Error('Request failed')
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
