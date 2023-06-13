@@ -1,0 +1,32 @@
+{% extends "./layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="mx-auto w-[65%] mt-12">
+    <a href="{% url 'index' %}" class="hover:text-sky-700 h-full"><i class="fa-solid fa-arrow-left text-3xl pr-2"></i><span class="inline-block text-2xl relative bottom-1">Back</span></a>
+</div>
+<div class="flex justify-around w-[85%] mx-auto flex-wrap">
+    <div class="flex flex-col items-center mt-12 mb-12">
+        <h2 class="text-3xl font-bold mb-4">Add Members to Project</h2>
+        {% if users %}
+        <div class="p-2 border-4 border-sky-400 rounded min-h-[20rem] w-96">
+            {% for user in users %}
+                {% if user.username in acceptedRelationshipStatus %}
+            <div class="flex justify-between items-center mb-4 mt-4">
+                <p class="text-2xl ml-8">{{ user.username }}</p>  
+                <button class="text-2xl text-sky-600 hover:text-sky-700 focus:outline-none mr-8" title="Message">
+                    <a href=""><i class="fa-solid fa-message"></i></a>  
+                </button>
+            </div>
+            <hr>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="p-2 border-4 border-cyan-300 rounded min-h-[20rem] w-96">
+            <p class="text-xl text-center mt-10">No users found.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock body %}

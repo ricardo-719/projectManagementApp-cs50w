@@ -12,7 +12,10 @@
         <form style="display: inline-block;" method="POST" action="{% url 'editProject' %}" name="editForm">
             {% csrf_token %}
             <input type="hidden" name="projectId" id="projectId" value="{{ item.id }}">
-            <i id="editIcon" class="fa-solid fa-pen-to-square cursor-pointer"></i>
+            <i id="editIcon" class="fa-solid fa-pen-to-square cursor-pointer hover:text-sky-600" title="Edit Project"></i>
+            <a href="{% url 'addMember' item.id %}">
+                <i id="addMember" class="fa-solid fa-person-circle-plus cursor-pointer hover:text-sky-600" title="Add Member"></i>
+            </a>
         </form>
     </h2>
     <p class="descriptiveParagraph">{{ item.projectDescription }}</p>

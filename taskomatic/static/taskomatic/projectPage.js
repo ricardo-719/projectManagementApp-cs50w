@@ -12,6 +12,7 @@ const addInventory = document.querySelector('.addInventoryButton');
 const closeModal = document.querySelector('.close-modal');
 const addModal = document.querySelector('.add-modal');
 const editIcon = document.getElementById('editIcon');
+const addMember = document.getElementById('addMember');
     //Inventory restock, consume, edit & delete buttons
 const incrementButtons = document.querySelectorAll('.increment-btn');
 const decrementButtons = document.querySelectorAll('.decrement-btn');
@@ -43,6 +44,10 @@ const hideModal = () => {
 
 const editFormSubmit = () => {
     document.editForm.submit();
+}
+
+const sendToAddMemberPage = () => {
+    console.log('add member page')
 }
 
 const submitAddForm = (type) => {
@@ -88,6 +93,7 @@ if (addInventory) {
 closeModal.addEventListener("click", hideModal);
 addModal.addEventListener("click", () => submitAddForm(addType));
 editIcon.addEventListener("click", editFormSubmit);
+addMember.addEventListener("click", sendToAddMemberPage);
 taskCompletionCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", submitCheckbox)
 })

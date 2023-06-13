@@ -335,3 +335,39 @@ def handle_inventory(request, action, pk=0):
     
     
     return HttpResponseRedirect(reverse("index"))
+
+def add_member(request, projectId):
+    if request.user.is_authenticated:
+        currentProjectId = projectId
+        currentUserId = request.user.id
+        currentProject = Project.objects.get(id=currentProjectId)
+        currentUser = User.objects.get(id=currentUserId)
+        users = User.objects.filter(Q(username__icontains=''), ~Q(username=currentUser)) # REFACTOR CODE TO USE ONLY NEEDED Q's
+        relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
+        acceptedRelationshipStatus = {}
+        pendingRelationshipStatus = {}
+        for relation in relationship:
+            if relation.status == 'pending':
+                if currentUser == relation.from_user:
+                    user = str(relation.to_user)
+                    pendingRelationshipStatus[user] = relation.status
+                elif currentUser == relation.to_user:
+                    user = str(relation.from_user)
+                    pendingRelationshipStatus[user] = relation.status
+            elif relation.status == 'accepted':
+                if currentUser == relation.from_user:
+                    user = str(relation.to_user)
+                    acceptedRelationshipStatus[user] = relation.status
+                elif currentUser == relation.to_user:
+                    user = str(relation.from_user)
+                    acceptedRelationshipStatus[user] = relation.status
+        print(currentUser)
+        print(currentProject)
+        context = {
+        "users": users,
+        "acceptedRelationshipStatus": acceptedRelationshipStatus,
+        "pendingRelationshipStatus": pendingRelationshipStatus
+    }
+        return render(request, "taskomatic/membersPage.html", context)
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
