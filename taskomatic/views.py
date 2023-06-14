@@ -19,9 +19,11 @@ def index(request):
         projects = Project.objects.filter(user=currentUser).order_by('-creationDate')
         contacts = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser), ~Q(status='rejected'))
         contactRequests = Relationship.objects.filter(Q(to_user=currentUser), Q(status="pending"))
+        memberProjects = Member.objects.filter(user=currentUser)
 
         return render(request, "taskomatic/index.html", {
         "projects": projects,
+        "memberProjects": memberProjects,
         "contacts": contacts,
         "contactRequests": contactRequests
         })

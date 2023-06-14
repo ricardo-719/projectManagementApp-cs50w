@@ -7,7 +7,6 @@ const toggleMember = async (event) => {
     const parameters = currentFormId.split(" | ");
     const projectId = parameters[1]
     const username = parameters[0]
-    //const currentForm = document.getElementById(currentFormId);
     const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
     const url = `/members/${projectId}`
     
@@ -23,10 +22,8 @@ const toggleMember = async (event) => {
         if (response.ok) {
             if (event.target.classList.contains('fa-minus')) {
                 event.target.outerHTML = '<i class="fa-solid fa-plus cursor-pointer toggleMemberBtn text-sky-600 hover:text-sky-700"></i>'
-                console.log('Turn to plus')
             } else {
                 event.target.outerHTML = '<i class="fa-solid fa-minus cursor-pointer toggleMemberBtn text-red-600 hover:text-red-700"></i>'
-                console.log('Turn to minus')
             }  
         } else {
             throw new Error('Request failed')
