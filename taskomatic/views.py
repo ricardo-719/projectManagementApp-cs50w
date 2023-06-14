@@ -378,7 +378,17 @@ def add_member(request, projectId):
     }
 
         if request.method == "POST":
-            requestData = json.loads(request.body)
+
+            try:
+                # Post incoming from membersPage contains json data that is used for toggling members access
+                requestData = json.loads(request.body)
+            except:
+                # Post incoming from dashboard is redirected here and removes user from project
+                f = Member.objects.get(Q(project=currentProject), Q(user=currentUser))
+                f.delete()
+                print('Member removed!')
+                return HttpResponseRedirect(reverse("index"))
+            
             memberUser = requestData.get("username")
             print(memberUser)
             memberUserInstance = User.objects.get(username=memberUser)

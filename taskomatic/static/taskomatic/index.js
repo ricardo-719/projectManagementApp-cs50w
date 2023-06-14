@@ -13,8 +13,20 @@ const editFormSubmit = (event) => {
     currentForm.submit();
 }
 const deleteProjectPrompt = (event) => {
-    modal.classList.remove('hidden');
-    currentProjectId = event.target.id.replace('indexDeleteIcon', '');
+    console.log(event.target.id)
+    if (event.target.classList.contains('teamProject')) {
+        modal.classList.remove('hidden');
+        document.querySelector('.modalTitle').innerHTML = 'Remove Project'
+        document.querySelector('.modalSubTitle').innerHTML = 'Do you want to permanently exit from this team project?'
+        document.querySelector('.delete-modal').innerHTML = 'Exit'
+        currentProjectId = event.target.id.replace('indexDeleteIcon', '');
+    } else {
+        modal.classList.remove('hidden');
+        document.querySelector('.modalTitle').innerHTML = 'Delete Project'
+        document.querySelector('.modalSubTitle').innerHTML = 'Are you sure?'
+        document.querySelector('.delete-modal').innerHTML = 'Delete'
+        currentProjectId = event.target.id.replace('indexDeleteIcon', '');
+    }
 }
 const hideModal = () => {
     modal.classList.add('hidden');
