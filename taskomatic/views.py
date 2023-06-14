@@ -7,6 +7,7 @@ from django.db.models import Q
 from datetime import datetime
 from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm
 from . import urls
+import json
 
 from .models import User, Project, Tasks, Inventory, Relationship, Member
 
@@ -370,8 +371,25 @@ def add_member(request, projectId):
         "users": users,
         "acceptedRelationshipStatus": acceptedRelationshipStatus,
         "pendingRelationshipStatus": pendingRelationshipStatus,
-        "members": currentMembers
+        "members": currentMembers,
+        "projectId": currentProjectId
     }
+
+        if request.method == "POST":
+            requestData = json.loads(request.body)
+            memberUser = requestData.get("username")
+            print(memberUser)
+            memberUserInstance = User.objects.get(username=memberUser)
+            print(memberUser)
+            if memberUser not in currentMembers:
+                f = Member(project=currentProject, user=memberUserInstance)
+                f.save()
+                print('Member added!')
+            else:
+                f = Member.objects.get(Q(project=currentProject), Q(user=memberUserInstance))
+                f.delete()
+                print('Member removed!')
+        
         return render(request, "taskomatic/membersPage.html", context)
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
