@@ -374,7 +374,7 @@ def add_member(request, projectId):
         "acceptedRelationshipStatus": acceptedRelationshipStatus,
         "pendingRelationshipStatus": pendingRelationshipStatus,
         "members": currentMembers,
-        "projectId": currentProjectId
+        "project": currentProject
     }
 
         if request.method == "POST":

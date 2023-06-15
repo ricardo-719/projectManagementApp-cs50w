@@ -16,18 +16,20 @@
             {% for user in users %}
                 {% if user.username in acceptedRelationshipStatus %}
                     {% if user.username not in members %}
+                        {% if user != project.user %}
             <div class="flex justify-between items-center mb-4 mt-4">
                 <p class="text-2xl ml-8">{{ user.username }}</p>  
-                <form class="text-2xl focus:outline-none mr-8" title="Add" id="{{user.username}} | {{projectId}}">
+                <form class="text-2xl focus:outline-none mr-8" title="Add" id="{{user.username}} | {{project.id}}">
                     {% csrf_token %}
                     <i class="fa-solid fa-plus cursor-pointer toggleMemberBtn text-sky-600 hover:text-sky-700"></i>
                 </form>
             </div>
             <hr>
+                        {% endif %}
                     {% elif user.username in members %}
             <div class="flex justify-between items-center mb-4 mt-4">
                 <p class="text-2xl ml-8">{{ user.username }}</p>  
-                <form class="text-2xl focus:outline-none mr-8" title="Remove" id="{{user.username}} | {{projectId}}">
+                <form class="text-2xl focus:outline-none mr-8" title="Remove" id="{{user.username}} | {{project.id}}">
                     {% csrf_token %}
                     <i class="fa-solid fa-minus cursor-pointer toggleMemberBtn text-red-600 hover:text-red-700"></i>
                 </form>
