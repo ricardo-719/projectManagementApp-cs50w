@@ -7,7 +7,7 @@
     {% endblock %}
 <div id="projectPageMainContainer">
     <h2>
-        {{ project.projectName }}
+        {{ project.projectName }} &nbsp;
         <form style="display: inline-block;" method="POST" action="{% url 'editProject' %}" name="editForm">
             {% csrf_token %}
             <input type="hidden" name="projectId" id="projectId" value="{{ project.id }}">
@@ -31,12 +31,18 @@
                     <input type="hidden" name="taskCreator" value="{{ request.user }}">
                     {{ taskForm.taskName }}
                     {{ taskForm.taskDescription }}
-                    <label for="id_taskDeadline" class="font-bold">Deadline:</label>
-                    {{ taskForm.taskDeadline }}
-                    <label for="id_taskLimitAlert" class="font-bold">Reminder:</label>
-                    {{ taskForm.taskLimitAlert }}
-                    <label for="id_taskImportance" class="font-bold">Priority:</label>
-                    {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
+                    <div class="p-1">
+                        <label for="id_taskDeadline" class="font-bold">Deadline:</label>
+                        {{ taskForm.taskDeadline }}
+                    </div>
+                    <div class="p-1">
+                        <label for="id_taskLimitAlert" class="font-bold">Reminder:</label>
+                        {{ taskForm.taskLimitAlert }}
+                    </div>
+                    <div class="p-1">
+                        <label for="id_taskImportance" class="font-bold">Priority:</label>
+                        {{ taskForm.taskImportance }} <span class="font-light text-sm italic">1 (Low) - 10 (High)</span>
+                    </div>
                 </div>
             </form>
             <form method="POST" action="{% url 'handleInventory' 'add' %}" name="addInventoryForm" id="addInventoryForm">
@@ -75,7 +81,7 @@
                             {% endif %}
                         {% endfor %}
                 </form>
-                <span class="inline-block font-bold text-lg">{{ task.taskName }}</span>
+                <span class="inline-block font-bold text-base">{{ task.taskName }}</span>
                 <span class="inline-block font-medium italic text-sm"><b>Due in:</b> {{ task.taskDeadline }}</span>
                 <span class="taskDeleteBtns">
                     <i class="fa-solid fa-xmark cursor-pointer hover:text-sky-600" data-pk="{{ task.id }}" title="Remove">{% csrf_token %}</i>
@@ -203,11 +209,7 @@
         {% for comment in comments %}
         <div class="bg-gray-100 m-2 border rounded-2xl px-5 py-2">
             <p style="display:inline-block" class="font-medium py-1">{{ comment.user }}</p>
-            {% with strUser=comment.user|stringformat:'s' %}
-                {% if currentUser == strUser %}
-            <span id="bttn{{comment.id}}" class="editButton" style="float: right;"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
-                {% endif %}
-            {% endwith %}
+            <i id="{{comment.id}}" class="fa-solid fa-xmark cursor-pointer deleteButton" style="float: right;"></i> <!--TODO: Delete Comment Button-->
             <li class="list-none text-base mb-2">{{ comment.comment }}</li>
             <p class="text-gray-600 text-xs py-2">{{ comment.date }} | {{ comment.time }}</p>
         </div>

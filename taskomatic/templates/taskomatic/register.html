@@ -7,6 +7,7 @@
         {% endif %}
         <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
             <h2>Register</h2>
+            <br>
             <form action="{% url 'register' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group mb-6">
@@ -38,7 +39,7 @@
                 focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
                 type="submit" value="Register">
             </form>
-        
+            <br>
             Already have an account? <a style="color: blue; text-decoration: underline;" href="{% url 'login' %}">Log In</a>
         </div>
     </section>
