@@ -6,19 +6,18 @@
 <script defer src="{% static 'taskomatic/projectPage.js' %}"></script>
     {% endblock %}
 <div id="projectPageMainContainer">
-    {% for item in project %}
     <h2>
-        {{ item.projectName }}
+        {{ project.projectName }}
         <form style="display: inline-block;" method="POST" action="{% url 'editProject' %}" name="editForm">
             {% csrf_token %}
-            <input type="hidden" name="projectId" id="projectId" value="{{ item.id }}">
+            <input type="hidden" name="projectId" id="projectId" value="{{ project.id }}">
             <i id="editIcon" class="fa-solid fa-pen-to-square cursor-pointer hover:text-sky-600" title="Edit Project"></i>
-            <a href="{% url 'addMember' item.id %}">
+            <a href="{% url 'addMember' project.id %}">
                 <i id="addMember" class="fa-solid fa-person-circle-plus cursor-pointer hover:text-sky-600" title="Add Member"></i>
             </a>
         </form>
     </h2>
-    <p class="descriptiveParagraph">{{ item.projectDescription }}</p>
+    <p class="descriptiveParagraph">{{ project.projectDescription }}</p>
     <!-- "ADD TASK/INVENTORY" MODAL -->
     <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50 z-10 hidden">
         <div class="bg-white rounded shadow-lg w-1/3">
@@ -28,7 +27,7 @@
             <form method="POST" action="{% url 'handleTasks' 'add' %}" name="addTaskForm" id="addTaskForm">
                 {% csrf_token %}
                 <div class="p-3 tasksModalForm">
-                    <input type="hidden" name="projectId" value="{{ item.id }}">
+                    <input type="hidden" name="projectId" value="{{ project.id }}">
                     <input type="hidden" name="taskCreator" value="{{ request.user }}">
                     {{ taskForm.taskName }}
                     {{ taskForm.taskDescription }}
@@ -43,7 +42,7 @@
             <form method="POST" action="{% url 'handleInventory' 'add' %}" name="addInventoryForm" id="addInventoryForm">
                 {% csrf_token %}
                 <div class="p-3 inventoryModalForm">
-                    <input type="hidden" name="projectId" value="{{ item.id }}">
+                    <input type="hidden" name="projectId" value="{{ project.id }}">
                     {{ inventoryForm.itemName }}
                     {{ inventoryForm.itemDescription }}
                     <label for="id_itemQty" class="font-bold">Amount:</label>
@@ -62,7 +61,7 @@
     <div id="tasksAndInventorySection">
         <span id="tasksContainer">
             <h3 class="mb-1">Tasks</h3>
-            {% if item.hasTasks %}
+            {% if project.hasTasks %}
                 {% if tasks %}
                     {% for task in tasks %}
                     {% if task.taskCompletion == False %}
@@ -125,7 +124,7 @@
         </span>
         <span id="inventoryContainer">
             <h3>Inventory</h3>
-            {% if item.hasInventory %}
+            {% if project.hasInventory %}
                 {% if inventory %}
                     {% for inventoryItem in inventory %}
                         {% if inventoryItem.itemQty > 0 and inventoryItem.itemLimitAlert == None or inventoryItem.itemQty > inventoryItem.itemLimitAlert and inventoryItem.itemLimitAlert != None %}
@@ -192,6 +191,28 @@
             {% endif %}
         </span>
     </div>
-    {% endfor %}
+</div>
+<div id="commentsProjectPageContainer">
+    <form action="{% url 'projectPage' project.id %}" method="POST" class="commentForm">
+        {% csrf_token %}
+        {{ form.comment|safe }}
+        <input class="inline-block rounded-full border-2 border-sky
+        px-6 pt-2 pb-[8px] mt-2 mb-2 text-xs font-medium uppercase leading-normal 
+        mb-1 hover:border-sky-600 cursor-pointer"
+        id="commentButton" type="submit" value="Comment" name="commentBtn">
+        {% for comment in comments %}
+        <div class="bg-gray-100 m-2 border rounded-2xl px-5 py-2">
+            <p style="display:inline-block" class="font-medium py-1">{{ comment.user }}</p>
+            {% with strUser=comment.user|stringformat:'s' %}
+                {% if currentUser == strUser %}
+            <span id="bttn{{comment.id}}" class="editButton" style="float: right;"><i class="fa-solid fa-pen-to-square cursor-pointer"></i></span>
+                {% endif %}
+            {% endwith %}
+            <li class="list-none text-base mb-2">{{ comment.comment }}</li>
+            <p class="text-gray-600 text-xs py-2">{{ comment.date }} | {{ comment.time }}</p>
+        </div>
+        {% endfor %}
+    </form>
+    
 </div>
 {% endblock %}

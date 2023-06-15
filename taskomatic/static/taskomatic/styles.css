@@ -180,6 +180,19 @@ header {
     margin: 0 auto;
 }
 
+#commentsProjectPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 0.8rem auto;
+}
+
+.commentForm {
+    display: flex;
+    flex-direction: column;
+}
+
 .descriptiveParagraph {
     font-size: 1.2rem;
     font-style: italic;

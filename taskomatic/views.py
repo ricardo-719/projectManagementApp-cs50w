@@ -5,11 +5,11 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Q
 from datetime import datetime
-from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm
+from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm, CommentForm
 from . import urls
 import json
 
-from .models import User, Project, Tasks, Inventory, Relationship, Member, Notification
+from .models import User, Project, Tasks, Inventory, Relationship, Member, Notification, Comment
 
 
 def index(request):
@@ -157,9 +157,10 @@ def register(request):
 
 
 def project_view(request, pk):
-    project = Project.objects.filter(id=pk)
+    project = Project.objects.get(id=pk)
     tasks = Tasks.objects.filter(projectId = pk)
     inventory = Inventory.objects.filter(projectId = pk)
+    comments = Comment.objects.filter(project=project).order_by('-id')
 
     # Form for task completion checkboxes
     taskForms = []
@@ -167,13 +168,24 @@ def project_view(request, pk):
         taskFormInstance = CompletionTaskForm(instance=task, task_id=task.id)
         taskForms.append(taskFormInstance)
 
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            currentUserId = request.user.id
+            currentUser = User.objects.get(id=currentUserId)  
+            f = Comment(project=project, user=currentUser, comment=form.cleaned_data['comment'], date=datetime.now().strftime("%Y-%m-%d"), time=datetime.now().strftime("%H:%M"))
+            f.save()   
+
     return render(request, "taskomatic/projectPage.html", {
         'project': project,
         'tasks': tasks,
         'inventory': inventory,
+        'comments': comments,
         'taskForm': TaskForm(),
         'taskForms': taskForms,
-        'inventoryForm': InventoryForm()
+        'inventoryForm': InventoryForm(),
+        'form': CommentForm()
     })
 
 

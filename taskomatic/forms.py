@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, DateInput, NumberInput, HiddenInput
 
-from .models import Project, Tasks, Inventory
+from .models import Project, Tasks, Inventory, Comment
 
 class ProjectForm(ModelForm):
 
@@ -94,3 +94,16 @@ class InventoryForm(ModelForm):
                 'placeholder': "Restock Limit"
             })
         }
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        widgets = {'comment': Textarea(attrs={
+            'class': "form-control px-2 py-1.5 text-gray-700 rounded transition ease-in-out m-1 border",
+            'id': "commentForm",
+            'cols': "60",
+            'rows': "5",
+            'autocomplete': "off",
+            'placeholder': 'What\'s Happening?', 
+            })}
