@@ -19,5 +19,6 @@ urlpatterns = [
     path("accept/<str:pk>/", views.accept_contact, name="acceptContact"),
     path("reject/<str:pk>/", views.reject_contact, name="rejectContact"),
     path("users/<str:pk>/", views.add_contact, name="addContact"),
-    path("members/<int:projectId>", views.add_member, name="addMember")
+    path("members/<int:projectId>", views.add_member, name="addMember"),
+    path("dismiss", views.dismiss_notification, name="dismiss")
 ]

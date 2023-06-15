@@ -5,6 +5,7 @@ const modal = document.querySelector('.modal');
 const closeModal = document.querySelector('.close-modal')
 const deleteModalButton = document.querySelector('.delete-modal')
 let currentProjectId = ''
+const dismissBtns = document.querySelectorAll('.dismissBtn')
 
     // Event handler
 const editFormSubmit = (event) => {
@@ -36,6 +37,30 @@ const submitDeleteRequest = () => {
     form = document.getElementById(selectDeleteForm);
     document.forms[selectDeleteForm].requestSubmit()
 }
+const dismissNotification = async (event) => {
+    const notificationId = event.target.id;
+    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    const url = "/dismiss"
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ notificationId })
+        });
+        if (response.ok) {
+            event.target.parentElement.style.display = 'none'
+        } else {
+            throw new Error('Request failed')
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
     // Event listener
 for (let i = 0; i < editIcons.length; i++) {
@@ -46,3 +71,6 @@ for (let i = 0; i < deleteIcons.length; i++) {
 }
 closeModal.addEventListener("click", hideModal);
 deleteModalButton.addEventListener("click", submitDeleteRequest);
+dismissBtns.forEach((button) => {
+    button.addEventListener("click", dismissNotification)
+})

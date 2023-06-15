@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Q
 from datetime import datetime
@@ -9,7 +9,7 @@ from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm
 from . import urls
 import json
 
-from .models import User, Project, Tasks, Inventory, Relationship, Member
+from .models import User, Project, Tasks, Inventory, Relationship, Member, Notification
 
 
 def index(request):
@@ -20,12 +20,14 @@ def index(request):
         contacts = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser), ~Q(status='rejected'))
         contactRequests = Relationship.objects.filter(Q(to_user=currentUser), Q(status="pending"))
         memberProjects = Member.objects.filter(user=currentUser)
+        notifications = Notification.objects.filter(user=currentUser)
 
         return render(request, "taskomatic/index.html", {
         "projects": projects,
         "memberProjects": memberProjects,
         "contacts": contacts,
-        "contactRequests": contactRequests
+        "contactRequests": contactRequests,
+        "notifications": notifications
         })
     return render(request, "taskomatic/index.html")
 
@@ -339,6 +341,7 @@ def handle_inventory(request, action, pk=0):
     
     return HttpResponseRedirect(reverse("index"))
 
+
 def add_member(request, projectId):
     if request.user.is_authenticated:
         currentProjectId = projectId
@@ -397,6 +400,8 @@ def add_member(request, projectId):
                 f = Member(project=currentProject, user=memberUserInstance)
                 f.save()
                 print('Member added!')
+                n = Notification(user=memberUserInstance, notification=f"You have been added to {currentProject.projectName} project")
+                n.save()
             else:
                 f = Member.objects.get(Q(project=currentProject), Q(user=memberUserInstance))
                 f.delete()
@@ -405,3 +410,13 @@ def add_member(request, projectId):
         return render(request, "taskomatic/membersPage.html", context)
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+
+def dismiss_notification(request):
+    if request.method == "POST":
+        requestData = json.loads(request.body)
+        notificationId = requestData.get("notificationId")
+        print(notificationId)
+        notification = Notification.objects.get(id=notificationId)
+        notification.delete()
+        return HttpResponse('notification dismissed')

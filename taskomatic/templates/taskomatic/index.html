@@ -65,6 +65,12 @@
                     </span>
                  </div>
                 {% endfor %}
+                {% for message in notifications %}
+                <div class="alertInstance">
+                    <p class="text-base">{{ message.notification }}</p>
+                    <i class="fa-solid fa-xmark hover:text-red-600 cursor-pointer #004225 mr-3 dismissBtn" id="{{ message.id }}" title="Dismiss">{% csrf_token %}</i>
+                 </div>
+                {% endfor %}
             </div>
         </section>
         <section id="ongoingProjectsContainer">

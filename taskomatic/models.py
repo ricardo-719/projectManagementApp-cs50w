@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class User(AbstractUser):
     pass
 
+
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     owner = models.CharField(max_length=80)
@@ -18,7 +19,8 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.projectName} created by {self.user}"
-    
+
+
 class Member(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -38,6 +40,7 @@ class Inventory(models.Model):
     itemUnit = models.CharField(max_length=20, choices=UNITS_CATEGORIES, default=UNITS_CATEGORIES[0][0])
     itemLimitAlert = models.IntegerField(null=True, blank=True)
 
+
 class Tasks(models.Model):
     PRIORITY_LEVELS = [tuple([x,x]) for x in range(1,11)]
 
@@ -51,6 +54,7 @@ class Tasks(models.Model):
     taskLimitAlert = models.DateField(null=True, blank=True)
     taskCreationDate = models.DateField(null=True, blank=True)
 
+
 class Room(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True)
@@ -63,6 +67,7 @@ class Room(models.Model):
     def __str__(self):
         return self.name
     
+
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -72,6 +77,7 @@ class Message(models.Model):
 
     def __str__(self):
         return self.body[0:50]
+
 
 class Relationship(models.Model):
     STATUS_CHOICES = [
@@ -91,3 +97,7 @@ class Relationship(models.Model):
     def __str__(self):
         return f"{self.from_user} | {self.to_user} | {self.status}" 
 
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    notification = models.CharField(max_length=100)
