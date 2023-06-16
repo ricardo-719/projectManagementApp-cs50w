@@ -326,3 +326,141 @@ header {
     background-color: rgba(0, 255, 255, 0.2);
     border: none;
 }
+
+@media only screen and (max-width: 1050px) {
+
+    html {
+        font-size: 15px;
+    }
+
+    #indexUpperSection {
+        width: 95%;
+    }    
+
+    #dashboardContainer {
+        width: 95%;
+    }
+
+    #indexAlerts {
+        margin-right: 3%;
+    }
+    
+    #ongoingProjectsContainer {
+        width: 95%;
+    }
+
+    #projectPageMainContainer {
+        width: 95%;
+    }
+    
+    .descriptiveParagraph {
+        width: 85%;
+    }
+    
+    #tasksAndInventorySection {
+        width: 95%;
+    }
+    
+    #addTaskModalFormTitle {
+        width: 80%;
+    }
+    
+    #addTaskModalFormDescription {
+        width: 95%;
+    }
+    
+    #addInventoryModalFormTitle {
+        width: 80%;
+    }
+    
+    #addInventoryModalFormDescription {
+        width: 95%;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+
+    html {
+        font-size: 15px;
+    }
+    
+    #taskLogo {
+        max-width: 25rem;
+        margin: 1%;
+    }
+    
+    .navSection {
+        max-width: 20rem;
+        margin: 1%;
+    }
+
+    #indexUpperSection {
+        flex-direction: column;
+        width: 95%;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 15rem;
+    }    
+
+    #dashboardContainer {
+        width: 95%;
+    }
+    
+    #ongoingProjectsContainer {
+        width: 95%;
+    }
+
+    #indexContacts {
+        width: 80%;
+        max-height: 17rem;
+    }
+    
+    #indexAlerts {
+        margin-right: 3%;
+        margin-top: 1rem;
+        width: 80%;
+        max-height: 15rem;
+    }
+
+    #projectInstance {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 8rem;
+    }
+    
+    #projectPageMainContainer {
+        width: 100%;
+    }
+
+    #tasksAndInventorySection {
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 90%;
+    }
+
+    #tasksContainer {
+        width: 100%;
+    }
+    
+    #commentsProjectPageContainer {
+        width: 95%;
+    }
+    
+    .descriptiveParagraph {
+        width: 85%;
+    }
+    
+    .taskInstancesContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    
+    .taskDeleteBtns {
+        align-self: flex-end;
+        padding-right: 0.5rem
+    }
+
+}
