@@ -120,21 +120,21 @@ By defining these ModelForms within the forms.py file, the project achieves a mo
 
 ### Views (views.py):
 
-    The views.py is the heart of the project. It import the necessary modules and define the functions to handle different HTTP requests and render appropriate HTML templates. Some of the modules and classes used are render, HttpResponse, HttpResponseRedirect, reverse, and form classes from a custom forms module. The file defines several view functions, including index, users_view, add_contact, accept_contact, reject_contact, login_view, logout_view, register, project_view, new_project, edit_project, delete_project, handle_tasks, handle_inventory, add_member, and dismiss_notification. These functions handle different aspects of a web application, such as user authentication, project management, task handling, inventory management, and notifications.
+The views.py is the heart of the project. It import the necessary modules and define the functions to handle different HTTP requests and render appropriate HTML templates. Some of the modules and classes used are render, HttpResponse, HttpResponseRedirect, reverse, and form classes from a custom forms module. The file defines several view functions, including *index, users_view, add_contact, accept_contact, reject_contact, login_view, logout_view, register, project_view, new_project, edit_project, delete_project, handle_tasks, handle_inventory, add_member, and dismiss_notification*. These functions handle different aspects of a web application, such as user authentication, project management, task handling, inventory management, and notifications.
 
-    Two notable functions are handle_tasks and handle_inventory. These two functions take a HTTP request, action, and an optional primary key (pk) as parameters. When the request method is POST, it checks the value of the action parameter to determine the operation to be performed. The idea behind these function is to use a redux-like approach to handle the different operations relating to Tasks and Inventory.
+Two notable functions are **handle_tasks** and **handle_inventory**. These two functions take a HTTP request, action, and an optional primary key (pk) as parameters. When the request method is POST, it checks the value of the action parameter to determine the operation to be performed. The idea behind these function is to use a redux-like approach to handle the different operations relating to Tasks and Inventory.
 
-    For example, for handle_tasks:
+For example, for handle_tasks:
 
-    - If the action is 'add', the function validates the form data, creates a new Tasks object with the cleaned data, and saves it to the database. If the form is not valid, the errors are printed.
+- If the action is 'add', the function validates the form data, creates a new Tasks object with the cleaned data, and saves it to the database. If the form is not valid, the errors are printed.
 
-    - If the action is 'delete', the function retrieves the Tasks object with the provided primary key (pk) and deletes it from the database. If the object is not found, a message is printed.
+- If the action is 'delete', the function retrieves the Tasks object with the provided primary key (pk) and deletes it from the database. If the object is not found, a message is printed.
 
-    - If the action is 'complete', the function retrieves the task ID from the request data and toggles the taskCompletion field of the corresponding Tasks object. The object is then saved to the database.
+- If the action is 'complete', the function retrieves the task ID from the request data and toggles the taskCompletion field of the corresponding Tasks object. The object is then saved to the database.
 
-    - If none of the above actions match, an "Invalid operation" message is printed. Finally, the function redirects the user to the "index" page.
+- If none of the above actions match, an "Invalid operation" message is printed. Finally, the function redirects the user to the "index" page.
 
-    The function handle_inventory is implemented in a similar way to handle_tasks.
+The function handle_inventory is implemented in a similar way to handle_tasks.
 
     
 
