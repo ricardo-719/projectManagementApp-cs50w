@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.db.models import Q
 from datetime import datetime
 from .forms import ProjectForm, TaskForm, InventoryForm, CompletionTaskForm, CommentForm
-from . import urls
 import json
 
 from .models import User, Project, Tasks, Inventory, Relationship, Member, Notification, Comment
@@ -14,6 +13,8 @@ from .models import User, Project, Tasks, Inventory, Relationship, Member, Notif
 
 def index(request):
     if request.user.is_authenticated:
+
+        # Retrieve relevant data
         currentUserId = request.user.id
         currentUser = User.objects.get(id=currentUserId)
         projects = Project.objects.filter(user=currentUser).order_by('-creationDate')
@@ -22,22 +23,29 @@ def index(request):
         memberProjects = Member.objects.filter(user=currentUser)
         notifications = Notification.objects.filter(user=currentUser)
 
-        return render(request, "taskomatic/index.html", {
-        "projects": projects,
-        "memberProjects": memberProjects,
-        "contacts": contacts,
-        "contactRequests": contactRequests,
-        "notifications": notifications
-        })
+        # Create a context dictionary with the retrieved data
+        context = {
+            "projects": projects,
+            "memberProjects": memberProjects,
+            "contacts": contacts,
+            "contactRequests": contactRequests,
+            "notifications": notifications 
+        }
+
+        return render(request, "taskomatic/index.html", context)
     return render(request, "taskomatic/index.html")
 
 
 def users_view(request):
+
+    # Retrieve relevant data
     q = request.GET.get('q', '')
     currentUserId = request.user.id
     currentUser = User.objects.get(id=currentUserId)
     users = User.objects.filter(Q(username__icontains=q), ~Q(username=currentUser))
     relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
+
+    # Create dictionaries and store the relationship status (accepted or pending) for each user
     acceptedRelationshipStatus = {}
     pendingRelationshipStatus = {}
     for relation in relationship:
@@ -55,15 +63,19 @@ def users_view(request):
             elif currentUser == relation.to_user:
                 user = str(relation.from_user)
                 acceptedRelationshipStatus[user] = relation.status
+
+    # Create a context dictionary with the retrieved data          
     context = {
         "users": users,
         "acceptedRelationshipStatus": acceptedRelationshipStatus,
         "pendingRelationshipStatus": pendingRelationshipStatus
     }
+
     return render(request, "taskomatic/users.html", context)
 
 
 def add_contact(request, pk):
+
     # Get the user that the current user wants to add as a contact
     to_user = User.objects.get(id=pk)
     currentUserId = request.user.id
@@ -78,30 +90,23 @@ def add_contact(request, pk):
 
 
 def accept_contact(request, pk):
+
+    #Retrieve and Update the relationship
     relationshipToUpdate = Relationship.objects.get(id=pk)
     relationshipToUpdate.status = "accepted"
     relationshipToUpdate.save()
+
     return HttpResponseRedirect(reverse("index"))
 
 
 def reject_contact(request, pk):
+
+    #Retrieve and Update the relationship
     relationshipToUpdate = Relationship.objects.get(id=pk)
     relationshipToUpdate.status = "rejected"
     relationshipToUpdate.save()
+
     return HttpResponseRedirect(reverse("index"))
-
-
-#TODO: Once request has been sent create function to update to accepted or rejected accordingly
-""" def accept_contact(request, from_user_id):
-    # Get the relationship object where the current user is the "to_user" and the other user is the "from_user"
-    relationship = get_object_or_404(Relationship, to_user=request.user, from_user_id=from_user_id)
-
-    # Update the status to "accepted"
-    relationship.status = 'accepted'
-    relationship.save()
-
-    # Redirect the user back to the page they were on
-    return redirect(request.META.get('HTTP_REFERER')) """
 
 
 def login_view(request):
@@ -131,6 +136,7 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
+
         username = request.POST["username"]
         email = request.POST["email"]
 
@@ -157,6 +163,8 @@ def register(request):
 
 
 def project_view(request, pk):
+
+    # Retrieve relevant data
     project = Project.objects.get(id=pk)
     tasks = Tasks.objects.filter(projectId = pk)
     inventory = Inventory.objects.filter(projectId = pk)
@@ -177,7 +185,8 @@ def project_view(request, pk):
             f = Comment(project=project, user=currentUser, comment=form.cleaned_data['comment'], date=datetime.now().strftime("%Y-%m-%d"), time=datetime.now().strftime("%H:%M"))
             f.save()   
 
-    return render(request, "taskomatic/projectPage.html", {
+    # Create a context dictionary with the retrieved data
+    context = {
         'project': project,
         'tasks': tasks,
         'inventory': inventory,
@@ -186,14 +195,17 @@ def project_view(request, pk):
         'taskForms': taskForms,
         'inventoryForm': InventoryForm(),
         'form': CommentForm()
-    })
+    }
+
+    return render(request, "taskomatic/projectPage.html", context)
 
 
 def new_project(request):
     user = User.objects.get(username=request.user)
     if request.method == "POST":
-        form = ProjectForm(request.POST)
 
+        # Form validation
+        form = ProjectForm(request.POST)
         if form.is_valid():
             f =  Project(user=form.cleaned_data['user'], owner=form.cleaned_data['owner'], projectName=form.cleaned_data['projectName'], 
                          projectDescription=form.cleaned_data['projectDescription'], hasTasks=form.cleaned_data['hasTasks'], 
@@ -212,23 +224,29 @@ def new_project(request):
 
 def edit_project(request):
     if request.method == "POST":
+
+        # Retrieve data and pre-populate form
         projectId = request.POST['projectId']
         projectInstance = Project.objects.get(id=projectId)
         form = ProjectForm(instance=projectInstance)
+
         return render(request, "taskomatic/newProject.html", {
         "form": form
         })
+    
     return render(request, "taskomatic/register.html")
 
 
 def delete_project(request):
     if request.method == "POST":
+
         projectId = request.POST['toDeleteProjectId']
         projectToDelete = Project.objects.get(id=projectId)
 
-        # Verify ownership
+        # Verify ownership of project
         if str(request.user) == projectToDelete.owner:
             projectToDelete.delete()
+
             return HttpResponseRedirect(reverse("index"))
         
     return HttpResponseRedirect(reverse("register"))
@@ -237,6 +255,7 @@ def delete_project(request):
 def handle_tasks(request, action, pk=0):
     if request.method == "POST":
 
+        # Evaluate the action and perform operation accordingly
         if action == 'add':
             form = TaskForm(request.POST)
             if form.is_valid():
@@ -273,6 +292,7 @@ def handle_tasks(request, action, pk=0):
         
         else:
             print('Invalid operation')
+
     return HttpResponseRedirect(reverse("index"))
 
 
@@ -280,6 +300,7 @@ def handle_inventory(request, action, pk=0):
     print(pk)
     if request.method == "POST":
 
+        # Evaluate the action and perform operation accordingly
         if action == 'add':
             form = InventoryForm(request.POST)
             if form.is_valid():
@@ -321,10 +342,12 @@ def handle_inventory(request, action, pk=0):
                 inventoryPage_html = render(request, "taskomatic/inventoryForm.html", context).content.decode('utf-8')
                 
                 return JsonResponse({'inventoryPage_html': inventoryPage_html})
+            
             else:
                 itemId = request.POST['itemId']
                 itemInstance = Inventory.objects.get(id=itemId)
                 form = InventoryForm(request.POST, instance=itemInstance)
+
                 if form.is_valid():
                     cleaned_data = form.cleaned_data
                     itemInstance.itemName = cleaned_data['itemName']
@@ -334,7 +357,9 @@ def handle_inventory(request, action, pk=0):
                     itemInstance.itemLimitAlert = cleaned_data['itemLimitAlert']
                     itemInstance.save()
                     print('Inventory Item Updated!')
+
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                
                 else:
                     print('Something went wrong')
                     print(form.errors)
@@ -356,6 +381,8 @@ def handle_inventory(request, action, pk=0):
 
 def add_member(request, projectId):
     if request.user.is_authenticated:
+
+        # Retrieve relevant data
         currentProjectId = projectId
         currentUserId = request.user.id
         currentProject = Project.objects.get(id=currentProjectId)
@@ -363,6 +390,8 @@ def add_member(request, projectId):
         users = User.objects.filter(~Q(username=currentUser))
         members = Member.objects.filter(project=currentProject)
         relationship = Relationship.objects.filter(Q(from_user=currentUser) | Q(to_user=currentUser))
+
+        # Create dictionaries and get relationship status
         acceptedRelationshipStatus = {}
         pendingRelationshipStatus = {}
         currentMembers = {}
@@ -384,6 +413,7 @@ def add_member(request, projectId):
         for member in members:
             memberInstance = str(member.user.username)
             currentMembers[memberInstance] = True
+
         context = {
         "users": users,
         "acceptedRelationshipStatus": acceptedRelationshipStatus,
@@ -426,9 +456,13 @@ def add_member(request, projectId):
 
 def dismiss_notification(request):
     if request.method == "POST":
+
+        #Retrieve notification ID
         requestData = json.loads(request.body)
         notificationId = requestData.get("notificationId")
-        print(notificationId)
+
+        #Dismiss notification
         notification = Notification.objects.get(id=notificationId)
         notification.delete()
+
         return HttpResponse('notification dismissed')
