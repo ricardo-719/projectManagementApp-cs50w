@@ -203,7 +203,7 @@ def project_view(request, pk):
 def new_project(request):
     user = User.objects.get(username=request.user)
     if request.method == "POST":
-
+        print('NEW PAGE HERE')
         # Form validation
         form = ProjectForm(request.POST)
         if form.is_valid():
@@ -225,15 +225,44 @@ def new_project(request):
 def edit_project(request):
     if request.method == "POST":
 
-        # Retrieve data and pre-populate form
-        projectId = request.POST['projectId']
-        projectInstance = Project.objects.get(id=projectId)
-        form = ProjectForm(instance=projectInstance)
+        try: 
 
-        return render(request, "taskomatic/newProject.html", {
-        "form": form
-        })
-    
+            # Update Project data
+            projectCreationDate = request.POST['projectCreationDate']
+            projectId = request.POST['projectId']
+            projectInstance = Project.objects.get(id=projectId)
+            form = ProjectForm(request.POST, instance=projectInstance)
+
+            if form.is_valid():
+                cleaned_data = form.cleaned_data
+                projectInstance.user = cleaned_data['user']
+                projectInstance.owner = cleaned_data['owner']
+                projectInstance.projectName = cleaned_data['projectName']
+                projectInstance.projectDescription = cleaned_data['projectDescription']
+                projectInstance.hasDeadline = cleaned_data['hasDeadline']
+                projectInstance.hasTasks = cleaned_data['hasTasks']
+                projectInstance.hasInventory = cleaned_data['hasInventory']
+                projectInstance.creationDate = projectCreationDate
+                projectInstance.deadlineDate = cleaned_data['deadlineDate']
+                projectInstance.save()
+                print('Project Updated!')
+
+            return HttpResponseRedirect(reverse("index"))   
+        except:
+
+            # Retrieve data and pre-populate form
+            projectId = request.POST['projectId']
+            projectInstance = Project.objects.get(id=projectId)
+            form = ProjectForm(instance=projectInstance)
+            creationDate = str(projectInstance.creationDate)
+            print(creationDate)
+
+            return render(request, "taskomatic/newProject.html", {
+            "projectId": projectId,
+            "projectCreationDate": creationDate,
+            "form": form
+            })
+
     return render(request, "taskomatic/register.html")
 
 
